@@ -1,32 +1,32 @@
-import NavigationBar from './entities/NavigationBar';
-import AnswerTextArea from './entities/AnswerTextArea';
-import QuestionList from './entities/QuestionList';
-import {MyList} from './entities/MyList';
-
 import React, {useState} from 'react';
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Login from './user/Login'
+import Header from './user/Header'
+import useToken from './user/useToken' 
+
+import Main from './main'
 
 
 function App() {
-    const [questions, setQuestions] = useState([
-      { text: "1", difficultyCount: 1},
-      { text: "2", difficultyCount: 2},
-      { text: "3", difficultyCount: 3}
-    ]);
-
-    function createNewQuestion() {
-      setQuestions(questions => questions.push({text: "4", difficultyCount: 2}))
-    }
+    //Твой код переехал в main :) надо авторизоваться логин:test пароль:test
+    const { token, removeToken, setToken } = useToken();
 
     return (
-        <div className='main'>
-          <NavigationBar/>
-          <div className='main-container'>
-              <QuestionList questions={questions} />
-            <div className='answer-container'>
-                <AnswerTextArea/>
+          <BrowserRouter>
+            <div className="main">
+              <Header token={removeToken}/>
+              {!token && token!=="" &&token!== undefined?  
+              <Login setToken={setToken} />
+              :(
+                <>
+                  <Routes>
+                    <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
+                  </Routes>
+                </>
+              )}
             </div>
-          </div> 
-        </div>
+          </BrowserRouter>
     );
   }
 
