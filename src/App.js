@@ -9,23 +9,24 @@ import Main from './main'
 
 
 function App() {
-    //Твой код переехал в main :) надо авторизоваться логин:test пароль:test
+
     const { token, removeToken, setToken } = useToken();
 
     return (
-          <BrowserRouter>
-            <div className="main">
-              <Header token={removeToken}/>
+          <BrowserRouter> {/* Роутеры для перехода на разные страницы пока только "/" */}
+              <Header token={removeToken}/> {/* Блок где находится кнопка для авторизации, пока тут */}
+              {/* Далее идет проверка на наличие токена, нужного для авторизации
+              Если его нет на компьютере, то предлагается авторизоваться и перейти на страницу Login.js
+              Если токен есть, то используются роутеры.
+              Переходя на страницу main необходимо отдать ей возможность настраивать токен и сам токен тоже
+              Пока эта функция не используется и любому пользователю доступны все куски кода :)*/}
               {!token && token!=="" &&token!== undefined?  
-              <Login setToken={setToken} />
-              :(
-                <>
-                  <Routes>
-                    <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
-                  </Routes>
-                </>
+                <Login setToken={setToken} />
+              :( 
+                <Routes>
+                  <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
+                </Routes>
               )}
-            </div>
           </BrowserRouter>
     );
   }

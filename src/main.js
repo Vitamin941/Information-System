@@ -8,7 +8,7 @@ import axios from "axios";
 
 function Main(props) {
     // Кусочек для авторизации==================================
-    const [profileData, setProfileData] = useState(null)
+    // const [profileData, setProfileData] = useState(null)
     // ++++++++++++++++++ Пример получения данных ++++++++++++++
     // function getData() {
     // axios({
@@ -53,7 +53,7 @@ function Main(props) {
         setQuestions(questions => questions.push({text: "4", difficultyCount: 2}))
     }
     return (
-        <div className="Profile">
+        <div className="main">
             <NavigationBar/>
             <div className='main-container'>
                 <QuestionList questions={questions} />

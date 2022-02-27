@@ -7,7 +7,7 @@ function Login(props) {
       email: "",
       password: ""
     })
-
+    // Функция клеит запрос, как она это делает мне сложно сказать
     function logMeIn(event) {
       axios({
         method: "POST",
@@ -39,7 +39,9 @@ function Login(props) {
       setloginForm(prevNote => ({
           ...prevNote, [name]: value})
       )}
-
+    // Форма для авторизации записывает информацию в объект loginForm
+    // в email и в password и кнопка для авторизации с действием logMeIn
+    // Когда вводим какую-то информацию запускается handleChange
     return (
       <div>
         <h1>Login: test, Password: test</h1>
