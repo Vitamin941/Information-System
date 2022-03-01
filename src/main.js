@@ -1,7 +1,7 @@
-import NavigationBar from './entities/NavigationBar';
-import AnswerTextArea from './entities/AnswerTextArea';
-import QuestionList from './entities/QuestionList';
-import {MyList} from './entities/MyList';
+import NavigationBar from './logic/NavigationBar';
+import AnswerTextArea from './logic/AnswerTextArea';
+import QuestionList from './logic/QuestionList';
+import {MyList} from './logic/MyList';
 
 import { useState } from 'react'
 import axios from "axios";
