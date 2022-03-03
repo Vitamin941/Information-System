@@ -8,10 +8,11 @@ function Login(props) {
       password: ""
     })
     // Функция клеит запрос, как она это делает мне сложно сказать
-    function logMeIn(event) {
+    function logMeIn(event) { 
+      console.log("Я сломал кнопку")
       axios({
         method: "POST",
-        url:"/token",
+        url:"http://localhost:5000/token",
         data:{
           email: loginForm.email,
           password: loginForm.password

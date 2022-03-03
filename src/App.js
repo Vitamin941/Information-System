@@ -19,16 +19,19 @@ function App() {
               Если его нет на компьютере, то предлагается авторизоваться и перейти на страницу Login.js
               Если токен есть, то используются роутеры.
               Переходя на страницу main необходимо отдать ей возможность настраивать токен и сам токен тоже
+              
+
               Пока эта функция не используется и любому пользователю доступны все куски кода :)*/}
-              {!token && token!=="" &&token!== undefined?  
+
+              {/*{!token && token!=="" &&token!== undefined?  
                 <Login setToken={setToken} />
-              :( 
+              :( */}
                 <Routes>
                   <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
                 </Routes>
-              )}
+              {/*})}*/}
           </BrowserRouter>
-    );
+   );
   }
 
 

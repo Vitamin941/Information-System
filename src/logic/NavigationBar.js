@@ -9,6 +9,11 @@ const NavigationBar = () => (
         <div className="block-user-window">
             <div className="user-window">
                 Макс пока свой код тут будет писать
+                  <textarea className="email-user-window">
+                  </textarea >
+                <form>
+                  <button className="button-email-user-window">Отправить</button> 
+                </form>
             </div>
             <div className="user-window-link" onClick={OpenWindow}></div>
         </div>
