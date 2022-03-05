@@ -1,7 +1,6 @@
 import NavigationBar from './logic/NavigationBar';
 import AnswerTextArea from './logic/AnswerTextArea';
-import QuestionList from './logic/QuestionList';
-import {MyList} from './logic/MyList';
+import { SuperList } from './logic/SuperList';
 
 import { useState } from 'react'
 import axios from "axios";
@@ -43,20 +42,23 @@ function Main(props) {
     // Конец кусочка для авторизации==============================
 
     //Твой код теперь тут :)
-    const [questions, setQuestions] = useState([
+    // const [questions, setQuestions] = useState([
+        // { text: "1", difficultyCount: 1},
+        // { text: "2", difficultyCount: 2},
+        // { text: "3", difficultyCount: 3}
+    // ]);
+  
+    const questions = [
         { text: "1", difficultyCount: 1},
         { text: "2", difficultyCount: 2},
         { text: "3", difficultyCount: 3}
-    ]);
-  
-    function createNewQuestion() {
-        setQuestions(questions => questions.push({text: "4", difficultyCount: 2}))
-    }
+    ];
+
     return (
         <div className="main">
             <NavigationBar/>
             <div className='main-container'>
-                <QuestionList questions={questions} />
+                <SuperList questions={questions} />
                 <div className='answer-container'>
                     <AnswerTextArea/>
                 </div>
