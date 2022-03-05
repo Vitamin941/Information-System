@@ -2,7 +2,7 @@ import NavigationBar from './logic/NavigationBar';
 import AnswerTextArea from './logic/AnswerTextArea';
 import { SuperList } from './logic/SuperList';
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from "axios";
 
 function Main(props) {
@@ -41,18 +41,18 @@ function Main(props) {
     //         }
     // Конец кусочка для авторизации==============================
 
-    //Твой код теперь тут :)
-    // const [questions, setQuestions] = useState([
-        // { text: "1", difficultyCount: 1},
-        // { text: "2", difficultyCount: 2},
-        // { text: "3", difficultyCount: 3}
-    // ]);
-  
-    const questions = [
-        { text: "1", difficultyCount: 1},
-        { text: "2", difficultyCount: 2},
-        { text: "3", difficultyCount: 3}
-    ];
+    var [questions, setQuestions] = useState([]);
+
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: '/'
+        })
+        .then((response) => setQuestions(questions.concat(response)))
+        .catch(error => {
+            console.log(error)
+        })
+    })
 
     return (
         <div className="main">

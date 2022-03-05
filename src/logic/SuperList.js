@@ -5,14 +5,9 @@ export class SuperList extends React.Component {
 
     constructor(props) {
         super(props);
-        let questions = [
-            { text: "3", difficultyCount: 1},
-            { text: "2", difficultyCount: 2},
-            { text: "1", difficultyCount: 3}
-        ];
 
         this.state = { 
-            items: questions, 
+            items: props.questions, 
             text: 0
         };
 
