@@ -7,7 +7,7 @@ const NavigationBar = () => (
         <a href="#" className="link">ссылка куда-то</a>
         <a href="#" className="link">ссылка куда-то</a>
         <div className="block-user-window">
-            <div className="user-window">
+            <div className="user-window-hidden">
                 Макс пока свой код тут будет писать
                   <textarea className="email-user-window">
                   </textarea >
