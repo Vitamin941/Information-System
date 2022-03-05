@@ -23,13 +23,13 @@ function App() {
 
               Пока эта функция не используется и любому пользователю доступны все куски кода :)*/}
 
-              {/*{!token && token!=="" &&token!== undefined?  
+              {!token && token!=="" &&token!== undefined?  
                 <Login setToken={setToken} />
-              :( */}
+              :( 
                 <Routes>
                   <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
                 </Routes>
-              {/*})}*/}
+              )}
           </BrowserRouter>
    );
   }

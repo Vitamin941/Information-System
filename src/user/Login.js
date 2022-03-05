@@ -12,7 +12,7 @@ function Login(props) {
       console.log("Я сломал кнопку")
       axios({
         method: "POST",
-        url:"http://localhost:5000/token",
+        url:"token",
         data:{
           email: loginForm.email,
           password: loginForm.password
