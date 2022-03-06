@@ -58,10 +58,8 @@ function Main(props) {
         <div className="main">
             <NavigationBar/>
             <div className='main-container'>
-                <SuperList questions={questions} />
-                <div className='answer-container'>
+                    <SuperList questions={questions} />
                     <AnswerTextArea/>
-                </div>
             </div>
         </div>
     );

@@ -31,11 +31,11 @@ export class SuperList extends React.Component {
     render() {
         return (
           <div className="questions-container">
-              {this.state.items.map(question => 
-                  <Question text={question.text} difficultyCount={question.difficultyCount}/>
-              )}
+                {this.state.items.map(question => 
+                    <Question text={question.text} difficultyCount={question.difficultyCount}/>
+                )}
               <button className="question-adder" onClick={this.onSubmit} />
-          </div>
+        </div>
         );
       }
   }

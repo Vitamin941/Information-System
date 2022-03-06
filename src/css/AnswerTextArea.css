@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100&display=swap');
+
+.answer-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #FFFFFF;
+    width: 50%;
+    height: 100vh;
+    margin: 10px 2px 2px 2px;
+  }
+  
+  .answer-text-area {
+    background: rgba(230, 255, 230, 0.5);
+    border: 2px solid #3BAE39;
+    box-sizing: border-box;
+    border-radius: 25px;
+    width: 70%;
+    height: 9rem;
+  }
+
+  .photo-loader {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 20px 0 0 0;
+    width: 70%;
+    height: 25rem;
+    background: rgba(230, 255, 230, 0.5);
+    border: 2px solid #3BAE39;
+    box-sizing: border-box;
+    border-radius: 25px;
+  }
+
+  .load-text {
+    margin: 0 0 6rem 0;
+    font-family: Kanit,'Arial';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 30px;
+    color: rgba(0, 0, 0, 0.5);
+  }
