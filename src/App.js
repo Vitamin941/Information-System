@@ -6,12 +6,13 @@ import Header from './user/Header'
 import useToken from './user/useToken' 
 
 import Main from './main'
+import Admin from './admin'
 
 
 function App() {
 
     const { token, removeToken, setToken } = useToken();
-
+  
     return (
           <BrowserRouter> {/* Роутеры для перехода на разные страницы пока только "/" */}
               <Header token={removeToken}/> {/* Блок где находится кнопка для авторизации, пока тут */}
@@ -28,6 +29,7 @@ function App() {
               :( 
                 <Routes>
                   <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
+                  <Route exact path="/admin/" element={<Admin token={token} setToken={setToken}/>}></Route>
                 </Routes>
               )}
           </BrowserRouter>

@@ -1,59 +1,97 @@
-import json
-from flask import Flask, request, jsonify
-from datetime import datetime, timedelta, timezone
-from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
-                               unset_jwt_cookies, jwt_required, JWTManager
+from hmac import compare_digest
+
+from flask import Flask
+from flask import jsonify
+from flask import request
+from flask_sqlalchemy import SQLAlchemy
+
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import current_user
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended import unset_jwt_cookies
 
 
-api = Flask(__name__)
+app = Flask(__name__)
 
-api.config["JWT_SECRET_KEY"] = "please-remember-to-change-me"
-api.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
-jwt = JWTManager(api)
 
-@api.after_request
-def refresh_expiring_jwts(response):
-    try:
-        exp_timestamp = get_jwt()["exp"]
-        now = datetime.now(timezone.utc)
-        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
-        if target_timestamp > exp_timestamp:
-            access_token = create_access_token(identity=get_jwt_identity())
-            data = response.get_json()
-            if type(data) is dict:
-                data["access_token"] = access_token 
-                response.data = json.dumps(data)
-        return response
-    except (RuntimeError, KeyError):
-        # Case where there is not a valid JWT. Just return the original respone
-        return response
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql+psycopg2://postgres:kopylov@localhost/flask_app_db'
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-@api.route('/token', methods=["POST"])
-def create_token():
-    email = request.json.get("email", None)
+
+jwt = JWTManager(app)
+db = SQLAlchemy(app)
+
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.Text, nullable=False, unique=True)
+    full_name = db.Column(db.Text, nullable=False)
+
+    # NOTE: In a real application make sure to properly hash and salt passwords
+    def check_password(self, password):
+        return compare_digest(password, "password")
+
+
+# Register a callback function that takes whatever object is passed in as the
+# identity when creating JWTs and converts it to a JSON serializable format.
+@jwt.user_identity_loader
+def user_identity_lookup(user):
+    return user.id
+
+
+# Register a callback function that loads a user from your database whenever
+# a protected route is accessed. This should return any python object on a
+# successful lookup, or None if the lookup failed for any reason (for example
+# if the user has been deleted from the database).
+@jwt.user_lookup_loader
+def user_lookup_callback(_jwt_header, jwt_data):
+    identity = jwt_data["sub"]
+    return User.query.filter_by(id=identity).one_or_none()
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    username = request.json.get("username", None)
     password = request.json.get("password", None)
-    if email != "test" or password != "test":
-        return {"msg": "Wrong email or password"}, 401
-
-    access_token = create_access_token(identity=email)
+    print(username, password)
+    user = User.query.filter_by(username=username).one_or_none()
+    if not user or not user.check_password(password):
+        return jsonify("Wrong username or password"), 401
+    
+    
+    # Notice that we are passing in the actual sqlalchemy user object here
+    access_token = create_access_token(identity=user)
+    # return jsonify(access_token=access_token)
     response = {"access_token":access_token}
     return response
 
-@api.route("/logout", methods=["POST"])
+
+@app.route("/logout", methods=["POST"])
 def logout():
     response = jsonify({"msg": "logout successful"})
     unset_jwt_cookies(response)
     return response
 
-@api.route('/')
+
+@app.route("/me", methods=["GET"])
 @jwt_required()
-def my_profile():
-    response_body = {
-        "name": "Nagato",
-        "about" :"Hello! I'm a full stack developer that loves python and javascript"
-    }
+def protected():
+    # We can now access our sqlalchemy User object via `current_user`.
+    response = jsonify({
+        "id":current_user.id,
+        "full_name":current_user.full_name,
+        "username":current_user.username,
+    })
+    return response
 
-    return response_body
 
-if __name__ == '__main__':
-    api.run(debug=True)
+if __name__ == "__main__":
+    db.create_all()
+    # db.session.add(User(full_name="Bruce Wayne", username="batman"))
+    # db.session.add(User(full_name="Ann Takamaki", username="panther"))
+    # db.session.add(User(full_name="Jester Lavore", username="little_sapphire"))
+    db.session.commit()
+
+    app.run()
