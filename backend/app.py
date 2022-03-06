@@ -54,5 +54,6 @@ def my_profile():
     }
 
     return response_body
+
 if __name__ == '__main__':
     api.run(debug=True)
