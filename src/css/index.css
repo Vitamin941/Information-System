@@ -42,10 +42,12 @@ body {
   width: 102px;
   height: 102px;
 }
+
 .user-window-hidden {
   display: none;
 }
-.user-window{
+
+.user-window {
   background-color: #FFFFFF;
   position: absolute;
   top:55px;
@@ -58,6 +60,7 @@ body {
   box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 0px 0px 25px 25px;
 }
+
 .email-user-window{
   width: 330px;
   height: 236px;
@@ -73,27 +76,27 @@ body {
   border: 1px solid #4D784D;
   box-sizing: border-box;
 }
-.button-email-user-window{
-border: none;
-width: 140px;
-height: 32px;
-left: 1210px;
-top: 562px;
-background: #3BAE39;
-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
-display: inline-block;
-position: absolute;
-top: 507px;
-right: 40px;
-bottom: 66px;
-left: 213px;
-font-family: Kanit;
-font-style: normal;
-font-weight: normal;
-font-size: 18px;
-line-height: 27px;
 
-color: #FFFFFF;
+.button-email-user-window {
+  border: none;
+  width: 140px;
+  height: 32px;
+  left: 1210px;
+  top: 562px;
+  background: #3BAE39;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  display: inline-block;
+  position: absolute;
+  top: 507px;
+  right: 40px;
+  bottom: 66px;
+  left: 213px;
+  font-family: Kanit;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 27px;
+  color: #FFFFFF;
 }
 
 
