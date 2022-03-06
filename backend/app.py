@@ -10,14 +10,14 @@ from flask_jwt_extended import current_user
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import unset_jwt_cookies
-
+from config import *
 
 app = Flask(__name__)
 
 
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
-app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql+psycopg2://postgres:kopylov@localhost/flask_app_db'
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["JWT_SECRET_KEY"] = JWT_SECRET_KEY  # Change this!
+app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = SQLALCHEMY_TRACK_MODIFICATIONS
 
 
 jwt = JWTManager(app)
@@ -89,9 +89,4 @@ def protected():
 
 if __name__ == "__main__":
     db.create_all()
-    # db.session.add(User(full_name="Bruce Wayne", username="batman"))
-    # db.session.add(User(full_name="Ann Takamaki", username="panther"))
-    # db.session.add(User(full_name="Jester Lavore", username="little_sapphire"))
-    db.session.commit()
-
     app.run()

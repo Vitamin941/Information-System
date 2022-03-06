@@ -18,7 +18,7 @@
   "scripts": {
     "my-start": "concurrently \"npm run start-backend\" \"npm start\"",
     "start": "react-scripts start",
-    "start-backend": "cd backend && start.bat",
+    "start-backend": "backend\\env\\Scripts\\python.exe backend\\app.py",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
