@@ -33,6 +33,34 @@ class User(db.Model):
     def check_password(self, password):
         return compare_digest(password, "password")
 
+class Question(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name_question = db.Column(db.String(80))
+    text_question = db.Column(db.Text)
+
+    subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'))
+    subject = db.relationship('Subject',
+        backref=db.backref('questions', lazy='dynamic'))
+
+    def __init__(self, name_question, text_question, subject):
+        self.name_question = name_question
+        self.text_question = text_question
+        self.subject = subject
+
+    def __repr__(self):
+        return '<Question %r>' % self.name_question
+
+
+class Subject(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50))
+
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return '<Subject %r>' % self.name
+
 
 # Register a callback function that takes whatever object is passed in as the
 # identity when creating JWTs and converts it to a JSON serializable format.
@@ -86,6 +114,45 @@ def protected():
     })
     return response
 
+
+@app.route("/get_subject", methods=["GET"])
+@jwt_required()
+def subject():
+    subjects = [{"subject_name": sbjct.name, "subject_id":sbjct.id} for sbjct in Subject.query.all()]
+    response = jsonify({
+        "subject": subjects,
+    })
+    return response
+
+@app.route("/get_question_subject/<id>", methods=["GET"])
+@jwt_required()
+def question_subject(id):
+    subject = Subject.query.get(id)
+    questions = [{"name_question": qu.name_question, "text_question":qu.text_question, "id_question":qu.id} for qu in subject.questions.all()]
+    response = jsonify({
+        "questions": questions,
+        "name_subject": subject.name,
+    })
+    return response
+
+
+@app.route("/add_question_subject/<id>", methods=["POST"])
+@jwt_required()
+def add_question_subject(id):
+    name_question = request.json['name_question']
+    text_question = request.json['text_question']
+    subject = Subject.query.get(id)
+    question = Question(name_question, text_question, subject)
+    db.session.add(question)
+    db.session.commit()
+    return jsonify({
+        "questions": 
+            {
+                "name_question": question.name_question, 
+                "text_question":question.text_question, 
+                "id_question":question.id
+            }
+    })
 
 if __name__ == "__main__":
     db.create_all()
