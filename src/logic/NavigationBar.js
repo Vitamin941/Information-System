@@ -12,6 +12,7 @@ const NavigationBar = () => (
 react(
         <div className="block-user-window">
             <div className="user-window-hidden">
+<<<<<<< HEAD
                 <form  className="get">
             <input  
                   type="text" className="get-user-window"
@@ -19,6 +20,9 @@ react(
  />
           <button type="submit" className="button-get-user-window"><i class="fa fa-search"></i></button>
         </form>
+=======
+                Макс пока свой код тут будет писать
+>>>>>>> 258884688085317b9c48449815aca3f3c9456d02
                   <textarea className="email-user-window">
                   </textarea >
                 <form>
