@@ -8,9 +8,10 @@ const NavigationBar = () => (
         <a href="#" className="link">ссылка куда-то</a>
         <a href="#" className="link">ссылка куда-то</a>
         <a href="#" className="link">ссылка куда-то</a>
+
+react(
         <div className="block-user-window">
             <div className="user-window-hidden">
-
               <form  className="get">
                 <input  
                 type="text" className="get-user-window"

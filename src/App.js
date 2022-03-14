@@ -31,9 +31,9 @@ function App() {
                   <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
                   <Route exact path="/admin/" element={<Admin token={token} setToken={setToken}/>}></Route>
                 </Routes>
-              )}
+              )};
           </BrowserRouter>
-        );
+    );
   }
 
 

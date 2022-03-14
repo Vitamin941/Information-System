@@ -31,6 +31,7 @@ function Admin(props) {
     function get_me(){
         axios({
             method: "GET",
+
             url:"/me",
             headers: {
                 Authorization: 'Bearer ' + props.token
