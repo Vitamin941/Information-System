@@ -183,3 +183,81 @@ body {
   align-self: flex-start;
   margin: 10px 0 0 10%;
 }
+
+.get-user-window {
+  width: 305px;
+  height: 47px;
+  position: absolute;
+  left: 15px;
+  top: 13px;
+  
+  background: #E6FFE6;
+  color: #4D784D;
+  border: 1px solid #4D784D;
+  box-sizing: border-box;
+}
+
+.button-get-user-window {
+  outline: none; 
+  border: 0;
+  background: transparent;
+
+  height: 25px;
+  width: 25px;
+  position: absolute;
+  top: 25px ;
+  right:  87px;
+  cursor: pointer;
+}
+
+.button-get-user-window:before {
+  content: url("../their_image/get_bunnon.png");
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #000000;
+}
+.button-user-window{
+  width: 108px;
+  height: 39px;
+  position: absolute;
+  top: 560px;
+  right: 270px;
+  bottom: 6px;
+  left: 15px;
+}
+.button-email-user-Settings{
+  outline: none; 
+  border: 0;
+  background: transparent;
+
+  height: 25px;
+  width: 25px;
+  position: absolute;
+  top: 0 ;
+  left: 0;
+  cursor: pointer;
+}
+.button-email-user-Settings:before {
+  content: url("../their_image/Setting_button.png");
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #000000;
+}
+.button-email-user-Exit{
+  outline: none; 
+  border: 0;
+  background: transparent;
+
+  height: 25px;
+  width: 25px;
+  position: absolute;
+  top: 0 ;
+  right: 0;
+  cursor: pointer;
+}
+.button-email-user-Exit:before {
+  content: url("../their_image/Exit_bunnon.png");
+  font-family: FontAwesome;
+  font-size: 16px;
+  color: #000000;
+}

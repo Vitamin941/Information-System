@@ -9,7 +9,26 @@ function Admin(props) {
         title: "",
         text: ""
     })
-    useEffect(() =>{
+    function get_questions(id){
+        axios({
+            method: "GET",
+            url:"/get_question_subject/" + id,
+            headers: {
+                Authorization: 'Bearer ' + props.token
+            }
+            })
+        .then((resp) => {
+            let copy = Object.assign([], []); 
+            resp.data.questions.map((el) =>{
+                copy.push(el)
+            })
+            setQuestions(copy)
+            setActiveSubject(resp.data.name_subject)
+        })
+        .catch(error => console.log(error))
+    }
+
+    function get_me(){
         axios({
             method: "GET",
             url:"/me",
@@ -19,27 +38,8 @@ function Admin(props) {
         })
         .then((resp) => setUser(resp.data.username))
         .catch(error => console.log(error))
+    }  
 
-        axios({
-            method: "GET",
-            url:"/get_question_subject/1",
-            headers: {
-                Authorization: 'Bearer ' + props.token
-            }
-            })
-        .then((resp) => {
-            let copy = Object.assign([], []); 
-            resp.data.questions.map((el) =>{
-                copy.push(el.name_question)
-            })
-            setQuestions(copy)
-            setActiveSubject(resp.data.name_subject)
-            console.log(questions)
-        })
-        .catch(error => console.log(error))
-    },[])   
-        
-    // Функция клеит запрос, как она это делает мне сложно сказать
     function add(event) { 
         console.log("Добавляем")
         axios({
@@ -54,11 +54,12 @@ function Admin(props) {
             }
         })
         .then((response) => {
-              const res = response.data
-              res.access_token && props.setToken(res.access_token)
-              setQuestionData(({
+            const res = response.data
+            res.access_token && props.setToken(res.access_token)
+            setQuestionData(({
                 title: res.title,
                 text: res.text}))
+            get_questions(1)
         })
         .catch((error) => {
               if (error.response) {
@@ -82,7 +83,10 @@ function Admin(props) {
             ...prevNote, [name]: value})
         )}
     
-  
+    useEffect(() =>{
+        get_me()
+        get_questions(1)
+    },[])  
     return (
         <div>
             <h1>Username: {user}</h1>
@@ -100,11 +104,11 @@ function Admin(props) {
                         name="text" 
                         placeholder="Text" 
                         value={questionData.text} />
-
                 <button onClick={add}>Добавить</button>
             </form> 
-             
-            {questions}
+            {questions.map((qu) => 
+                <p>- {qu.name_question} (id = {qu.id_question})</p>
+            )}
         </div>
     );
 }
