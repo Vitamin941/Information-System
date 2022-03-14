@@ -9,6 +9,7 @@ function Header(props) {
     })
     .then((response) => {
        props.token()
+       
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)

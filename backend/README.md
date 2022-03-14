@@ -18,3 +18,17 @@ python -m pip install --upgrade pip
 python -m pip install -r lib.txt
 python app.py
 ```
+
+
+Установка обновлений через install.py
+
+
+старт через run.py
+
+конфиг чисто на твоем пк лежит, он игнорируется
+
+чтоб создать пару юзеров можешь раскомментировать строки в install.py запустить его и закоментить обратно
+
+пароль у всех password
+
+username как в скрипте
