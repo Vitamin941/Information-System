@@ -1,0 +1,131 @@
+.user-window-link {
+    background-image: url("../icon/window-user.svg");
+    position: absolute;
+    top: 13px;
+    right: 8px;
+    width: 102px;
+    height: 102px;
+  }
+  
+.user-window-hidden {
+    display: none;
+  }
+  
+.user-window {
+    background-color: #FFFFFF;
+    position: absolute;
+    top:55px;
+    right: 50px;
+    width: 393px;
+    height: 605px;
+    border: 2px solid #3BAE39;
+    background: #FDFDFD;
+    box-sizing: border-box;
+    box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0 0 25px 25px;
+  }
+  
+.email-user-window{
+    width: 330px;
+    height: 236px;
+    position: absolute;
+    top: 260px;
+    right: 40px;
+    bottom: 109px;
+    left: 23px;
+    margin: auto;
+    background: #E6FFE6;
+    border: 1px solid #4D784D;
+    box-sizing: border-box;
+  }
+  
+.button-email-user-window {
+    border: none;
+    width: 140px;
+    height: 32px;
+    top: 507px;
+    right: 40px;
+    bottom: 66px;
+    left: 213px;
+    position: absolute;
+    font-family: Kanit;
+    font-size: 18px;
+    line-height: 27px;
+    color: #FFF;
+    background: #3BAE39;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+  }
+.get-user-window {
+    width: 305px;
+    height: 47px;
+    position: absolute;
+    left: 15px;
+    top: 13px;
+    
+    background: #E6FFE6;
+    color: #4D784D;
+    border: 1px solid #4D784D;
+    box-sizing: border-box;
+  }
+  
+.button-get-user-window {
+    outline: none; 
+    border: 0;
+    background: transparent;
+  
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    top: 25px ;
+    right:  87px;
+    cursor: pointer;
+  }
+  
+.button-get-user-window:before {
+    content: url("../their_image/get_bunnon.png");
+    font-family: FontAwesome;
+    font-size: 16px;
+    color: #000000;
+  }
+.button-user-window{
+    width: 108px;
+    height: 39px;
+    position: absolute;
+    top: 560px;
+    right: 270px;
+    bottom: 6px;
+    left: 15px;
+  }
+.button-email-user-Settings{
+    outline: none; 
+    border: 0;
+    background: transparent;
+  
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    cursor: pointer;
+  }
+.button-email-user-Settings:before {
+    content: url("../their_image/Setting_button.png");
+    font-size: 16px;
+    color: #000000;
+  }
+.button-email-user-Exit{
+    outline: none; 
+    border: 0;
+    background: transparent;
+  
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    top: 0 ;
+    right: 0;
+    cursor: pointer;
+  }
+.button-email-user-Exit:before {
+    content: url("../their_image/Exit_bunnon.png");
+    font-size: 16px;
+    color: #000000;
+  }
+  
