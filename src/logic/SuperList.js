@@ -1,5 +1,5 @@
 import React from "react";
-import Question from "./Question";
+import {Question} from "./Question";
 
 export class SuperList extends React.Component {
 
