@@ -43,22 +43,6 @@ body {
   border: 1px solid #C4C4C4;
 }
 
-
-.questions-container::-webkit-scrollbar {
-  width: auto;
-  height: 20%;
-}
-
-.questions-container::-webkit-scrollbar-track {
-  background: #3BAE39;
-  border-radius: 50px;
-}
-
-.questions-container::-webkit-scrollbar-thumb {
-  border: 2px solid #4D784D;
-  box-sizing: border-box;
-}
-
 .one-question-container {
   display: flex;
   flex-flow: row-reverse wrap;
@@ -113,7 +97,7 @@ body {
 }
 
 .question-adder {
-  display:inline-block;
+  display:block;
   width:36px;
   height:36px;
   background:
@@ -125,7 +109,28 @@ body {
   background-repeat:no-repeat;
   border-radius:50%;
   border: none;
-  align-self: flex-start;
   margin: 10px 0 0 10%;
+}
+
+.question-submiter {
+  display:block;
+  width:36px;
+  height:36px;
+  background-image: url('../their_image/Accept_btn.png');
+  background-position:center;
+  background-size: 90% 90%;
+  background-repeat:no-repeat;
+  border-radius:50%;
+  border: none;
+  margin: 10px 10% 0 0;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: fit-content;
+
 }
 

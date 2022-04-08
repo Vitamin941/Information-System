@@ -2,10 +2,11 @@ import React from "react";
 
 export class Question extends React.Component {
     constructor(props) {
-        let clicked=false
+        super()
+
+        let clicked= props.clicked ? true : false
         if (props.text === '')
             clicked=true
-        super()
 
         this.state = {
             text: props.text,
