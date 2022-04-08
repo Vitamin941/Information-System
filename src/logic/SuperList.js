@@ -36,8 +36,7 @@ export class SuperList extends React.Component {
 
     onSubmit(e) {
         e.preventDefault()
-        let input = document.getElementsByClassName("Inputer")[0]
-        console.log(input)
+        let input = document.getElementsByClassName("inputer")[0]
         const newQuestion = {
             text: input.value,
             difficultyCount: 5,
@@ -58,7 +57,9 @@ export class SuperList extends React.Component {
                 )}
                 {this.state.generatedQuestion
                     ?
-                        <input className="Inputer" placeholder="Введите текст"/>
+                    <div className="input-container">
+                        <input className="inputer" placeholder="Введите текст"/>
+                    </div>
                     :
                     <></>
                 }

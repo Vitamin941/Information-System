@@ -96,6 +96,15 @@ body {
   box-sizing: border-box;
 }
 
+.circle-empty {
+  margin: 15px 3px 0 3px;
+  width: 1rem;
+  height: 1rem;
+  border: 3px solid #3BAE39;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
 .question-adder {
   display:block;
   width:36px;
@@ -131,6 +140,28 @@ body {
   justify-content: space-between;
   width: 100%;
   height: fit-content;
+}
 
+.input-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 2px 10px 2px;
+  width: 80%;
+  height: 9rem;
+  background-color: #E6FFE5;
+  border: 2px solid #4D784D;
+  box-sizing: border-box;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.inputer {
+  font-family: Kanit,'Arial';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.2em;
+  color: #000;
+  line-height: 30px;
+  text-align: center;
+  align-self: center;
 }
 

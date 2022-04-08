@@ -4,9 +4,7 @@ export class Question extends React.Component {
     constructor(props) {
         super()
 
-        let clicked= props.clicked ? true : false
-        if (props.text === '')
-            clicked=true
+        let clicked = props.clicked ? true : false
 
         this.state = {
             text: props.text,
@@ -46,13 +44,14 @@ export class Question extends React.Component {
     render() {
         return(
         <div className="one-question-container">
-            {this.state.clicked ?
+            {this.state.clicked 
+                ?
                 <div className="text-container" onClick={e => this.HandleClick(e)}>
                     <textarea 
                         className="question-text-input" 
                         type="text"
                         placeholder="Введите свой вопрос здесь"
-                        defaultValue={this.state.text}
+                        defaultValue= {this.state.text !== '' ? this.state.text : ''}
                         onChange={e => this.HandleChange(e)}
                         onClick={e => this.HandleSubmit(e)}/>
                 </div>
@@ -61,9 +60,9 @@ export class Question extends React.Component {
                     <p className="question-text">{this.state.text}</p>
                 </div>
             }
-            <div className="circle"/>   
-            <div className="circle"/>
-            <div className="circle"/>
+            <div className="circle-empty"/>   
+            <div className="circle-empty"/>
+            <div className="circle-empty"/>
             <div className="circle"/>
             <div className="circle"/>
         </div> 
