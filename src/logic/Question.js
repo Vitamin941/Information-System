@@ -2,11 +2,14 @@ import React from "react";
 
 export class Question extends React.Component {
     constructor(props) {
+        let clicked=false
+        if (props.text === '')
+            clicked=true
         super()
 
         this.state = {
             text: props.text,
-            clicked: false
+            clicked: clicked
         }
 
         this.HandleClick = this.HandleClick.bind(this)
@@ -47,9 +50,10 @@ export class Question extends React.Component {
                     <textarea 
                         className="question-text-input" 
                         type="text"
-                        defaultValue={this.state.text} 
+                        placeholder="Введите свой вопрос здесь"
+                        defaultValue={this.state.text}
                         onChange={e => this.HandleChange(e)}
-                        onClick={e => this.HandleClick(e)}/>
+                        onClick={e => this.HandleSubmit(e)}/>
                 </div>
                 :
                 <div className="text-container" onClick={e => this.HandleClick(e)}>

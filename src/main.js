@@ -41,7 +41,7 @@ function Main(props) {
     //         }
     // Конец кусочка для авторизации==============================
 
-    var [questions, setQuestions] = useState([{text:'1',diffQuestion:4}]);
+    var [questions, setQuestions] = useState([{text:'Текст из запроса1',diffQuestion:4,clicked:false}, {text:"Текст из запроса2",diffQuestion:2,clicked:false}]);
 
     // useEffect(() => {
     //     axios({

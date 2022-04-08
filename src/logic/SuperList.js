@@ -8,7 +8,7 @@ export class SuperList extends React.Component {
 
         this.state = { 
             items: props.questions, 
-            text: 0
+            text: ''
         };
 
         this.onSubmit = this.onSubmit.bind(this)
@@ -18,7 +18,7 @@ export class SuperList extends React.Component {
         e.preventDefault();
 
         const newQuestion = {
-            text: 1,
+            text: '',
             difficultyCount: 5
         };
 
