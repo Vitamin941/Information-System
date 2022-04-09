@@ -33,6 +33,11 @@
     border-radius: 25px;
   }
 
+  .load-img {
+    width: 120px;
+    height: 100px;
+  }
+
   .load-text {
     margin: 0 0 6rem 0;
     font-family: Kanit,'Arial';

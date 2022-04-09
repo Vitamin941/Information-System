@@ -2,6 +2,7 @@ import React from "react"
 import { useState } from 'react';
 import axios from "axios";
 import OpenWindow from '../user/UserWindow';
+import '../css/User-window.css'
 
 const NavigationBar = () => (
     <nav className="nav-bar">

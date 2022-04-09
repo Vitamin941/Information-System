@@ -1,5 +1,5 @@
 import NavigationBar from './logic/NavigationBar';
-import AnswerTextArea from './logic/AnswerTextArea';
+import { AnswerTextArea } from './logic/AnswerTextArea';
 import { SuperList } from './logic/SuperList';
 
 import { useState, useEffect } from 'react'
@@ -41,18 +41,18 @@ function Main(props) {
     //         }
     // Конец кусочка для авторизации==============================
 
-    var [questions, setQuestions] = useState([]);
+    var [questions, setQuestions] = useState([{text:'Текст из запроса1',diffQuestion:4,clicked:false}, {text:"Текст из запроса2",diffQuestion:2,clicked:false}]);
 
-    useEffect(() => {
-        axios({
-            method: 'get',
-            url: '/'
-        })
-        .then((response) => setQuestions(questions.concat(response)))
-        .catch(error => {
-            console.log(error)
-        })
-    })
+    // useEffect(() => {
+    //     axios({
+    //         method: 'get',
+    //         url: '/'
+    //     })
+    //     .then((response) => setQuestions(questions.concat(response)))
+    //     .catch(error => {
+    //         console.log(error)
+    //     })
+    // })
 
     return (
         <div className="main">
