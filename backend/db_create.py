@@ -1,15 +1,25 @@
-from app import db, User, Subject, Question
+from app import db, User, Subject, Question, Repetition
 # dir = os.path.abspath(__file__)
 
 db.create_all()
-db.session.add(User(full_name="Bruce Wayne", username="batman"))
-db.session.add(User(full_name="Ann Takamaki", username="panther"))
-db.session.add(User(full_name="Jester Lavore", username="little_sapphire"))
+admin = db.session.query(User).filter_by(username="admin").first()
+if not admin:
+    db.session.add(User(full_name="Admin min", username="admin"))
 
-subject_1 = Subject("Группа вопросов 1")
-question_1 = Question("Java vs Python", "Зачем учить Python если можно кодить на Java?", subject_1)
-db.session.add(subject_1)
-db.session.add(question_1)
+subject_1 = db.session.query(Subject).filter_by(name="Группа вопросов 1").first()
+if not subject_1:
+    subject_1 = Subject("Группа вопросов 1")
+    db.session.add(subject_1)
+
+question_1 = db.session.query(Question).filter_by(name_question="Java vs Python").first()
+if not question_1:
+    question_1 = Question("Java vs Python", "Зачем учить Python если можно кодить на Java?", subject_1, 'Ответ')
+    db.session.add(question_1)
+
+rep_1 = db.session.query(Repetition).filter_by(question=question_1, user=admin).first()
+if not rep_1:
+    rep_1 = Repetition(question_1, admin, subject_1, 2)
+    db.session.add(rep_1)
 
 db.session.commit()
 

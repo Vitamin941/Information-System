@@ -6,7 +6,7 @@ import Header from './user/Header'
 import useToken from './user/useToken' 
 
 import Main from './main'
-import Admin from './admin'
+import Admin_ from './admin/admin'
 
 
 function App() {
@@ -29,9 +29,9 @@ function App() {
               :( 
                 <Routes>
                   <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
-                  <Route exact path="/admin/" element={<Admin token={token} setToken={setToken}/>}></Route>
+                  <Route exact path="/admin/" element={<Admin_ token={token} setToken={setToken}/>}></Route>
                 </Routes>
-              )};
+              )}
           </BrowserRouter>
     );
   }

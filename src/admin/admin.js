@@ -1,7 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect} from 'react'
 import axios from "axios";
+import Ques from "./ques"
+import { SuperList } from '../logic/SuperList';
+import { Question } from '../logic/Question';
+import { render } from '@testing-library/react';
 
-function Admin(props) {
+function Admin_(props) {
     const [user, setUser] = useState() 
     const [questions, setQuestions] = useState([]) 
     const [activ_subject, setActiveSubject] = useState()
@@ -9,6 +13,7 @@ function Admin(props) {
         title: "",
         text: ""
     })
+
     function get_questions(id){
         axios({
             method: "GET",
@@ -22,10 +27,12 @@ function Admin(props) {
             resp.data.questions.map((el) =>{
                 copy.push(el)
             })
+            // setQuestions(questions => questions.concat(copy))
             setQuestions(copy)
             setActiveSubject(resp.data.name_subject)
         })
         .catch(error => console.log(error))
+        console.log("Получил из бд ", questions)
     }
 
     function get_me(){
@@ -84,10 +91,30 @@ function Admin(props) {
             ...prevNote, [name]: value})
         )}
     
+    function deleteQuestion(id) {
+        console.log("delete")
+        setQuestions(questions.filter(qu => qu.id_question !== id))
+        console.log(questions.filter(qu => qu.id_question !== id))
+    }
+
+    function editQuestion(id, title, text) {
+        console.log("update")
+        
+        const newQ = questions.filter(qu => qu.id_question === id)
+        newQ.text_question = text
+        newQ.name_question = title
+        setQuestions(questions.filter(qu => qu.id_question !== id))
+        questions.push(newQ)
+        setQuestions(questions)
+        console.log()
+        console.log(title, text)
+    }
+    
     useEffect(() =>{
         get_me()
         get_questions(1)
     },[])  
+    
     return (
         <div>
             <h1>Username: {user}</h1>
@@ -107,11 +134,12 @@ function Admin(props) {
                         value={questionData.text} />
                 <button onClick={add}>Добавить</button>
             </form> 
-            {questions.map((qu) => 
-                <p>- {qu.name_question} (id = {qu.id_question})</p>
-            )}
+            
+            <div className='main-container'>
+                <SuperList questions={questions}/>
+            </div>
         </div>
     );
 }
 
-export default Admin;
+export default Admin_;
