@@ -79,7 +79,12 @@ def subject():
 @jwt_required()
 def question_subject(id):
     subject = Subject.query.get(id)
-    questions = [{"name_question": qu.name_question, "text_question":qu.text_question, "id_question":qu.id} for qu in subject.questions.all()]
+    questions = [{
+        "name_question": qu.name_question, 
+        "text_question":qu.text_question, 
+        "text":qu.text_question,
+        "diffQuestion": 4,
+        "id_question":qu.id} for qu in subject.questions.all()]
     response = jsonify({
         "questions": questions,
         "name_subject": subject.name,

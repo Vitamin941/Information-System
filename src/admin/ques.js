@@ -5,7 +5,7 @@ function Ques(props) {
     
     const qId = props.question.id_question; 
     const title = props.question.name_question;
-    const text = props.question.text_question;
+    const text = props.question.text;
 
     function handleChange(event) { 
         
