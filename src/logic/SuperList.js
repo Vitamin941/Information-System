@@ -18,7 +18,6 @@ export class SuperList extends React.Component {
     }
 
     componentDidMount() {
-        let data = []
         axios({
             method: "GET",
             url:"/get_question_subject/1",
@@ -34,17 +33,6 @@ export class SuperList extends React.Component {
             .catch(error => console.log(error))
     }
 
-    // componentDidUpdate() {
-    //     axios({
-    //         method: "POST",
-    //         url:"add_question_subject/1",
-    //         data:{
-    //             text_question: items.text
-    //         },
-    //         headers: {
-    //                 Authorization: 'Bearer ' + props.token
-    //     }})
-    // }
 
     onCreate(e) {
         e.preventDefault();
@@ -68,13 +56,32 @@ export class SuperList extends React.Component {
             text: state.text,
             generatedQuestion: false
         }));
+        
+        this.addToDB(newQuestion)
+    }
+
+    addToDB(question) {
+        axios({
+            method: "post",
+            url: "/add_question_subject/1",
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            },
+            data:{
+                name_question: "",
+                text_question: question.text
+            },
+        })
+        .then(function (response) {
+            console.log(response);
+          })
     }
 
     render() {
         return (
           <div className="questions-container">
                 {this.state.items.map(question => 
-                    <Question text={question.text_question} difficultyCount={question.difficultyCount}/>
+                    <Question text={question.text} level={question.level}/>
                 )}
                 {this.state.generatedQuestion
                     ?

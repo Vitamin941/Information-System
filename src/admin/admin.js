@@ -119,6 +119,7 @@ function Admin_(props) {
         <div>
             <h1>Username: {user}</h1>
             <h1>Добавление вопроса ({activ_subject})</h1>
+            <a href='/'>Вопросеки</a>
             <form className="question">
                 <input onChange={handleChange} 
                         type="text"
