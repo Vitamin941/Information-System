@@ -80,32 +80,60 @@ def subject():
 def question_subject(id):
     subject = Subject.query.get(id)
     questions = [{
-        "name_question": qu.name_question, 
-        "text_question":qu.text_question, 
         "text":qu.text_question,
-        "diffQuestion": 4,
-        "id_question":qu.id} for qu in subject.questions.all()]
+        "level": 4,
+        "id":qu.id} for qu in subject.questions.all()]
     response = jsonify({
-        "questions": questions,
-        "name_subject": subject.name,
+        "questions": questions
     })
     return response
 
 
-@app.route("/add_question_subject/<id>", methods=["POST"])
+@app.route("/add_question", methods=["POST"])
 @jwt_required()
-def add_question_subject(id):
-    name_question = request.json['name_question']
-    text_question = request.json['text_question']
+def add_question_subject():
+    id = request.json['id_subject']
+    text_question = request.json['text']
+    text_answer = request.json['answer']
+    img = request.json['photo']
     subject = Subject.query.get(id)
-    question = Question(name_question, text_question, subject)
+    question = Question(text_question, subject, text_answer, img)
     db.session.add(question)
     db.session.commit()
     return jsonify({
-        "questions": 
-            {
-                "name_question": question.name_question, 
-                "text_question":question.text_question, 
-                "id_question":question.id
-            }
+        "id":question.id
     })
+
+@app.route("/delete_question/<id>", methods=["POST"])
+@jwt_required()
+def delete_question(id):
+    question = Question.query.get(id)
+    db.session.delete(question)
+    db.session.commit()
+    response = jsonify({
+        "status":"OK"
+    })
+    return response
+
+@app.route("/update_question/<id>", methods=["POST"])
+@jwt_required()
+def гupdate_question(id):
+    question = Question.query.get(id)
+    question.text_question = request.json['text'] 
+    question.text_answer = request.json['answer']
+    question.image = request.json['photo']
+    db.session.commit()
+    response = jsonify({
+        "status":"OK"
+    })
+    return response
+
+@app.route("/get_answer/<id>", methods=["GET"])
+@jwt_required()
+def get_answer(id):
+    quation = Question.query.get(id)
+    response = jsonify({
+        "answer": quation.text_answer,
+        "photo": quation.image
+    })
+    return response

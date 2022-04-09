@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 
 export class Question extends React.Component {
     constructor(props) {
@@ -8,6 +9,7 @@ export class Question extends React.Component {
 
         this.state = {
             text: props.text,
+            id: props.id,
             clicked: clicked
         }
 
@@ -41,6 +43,47 @@ export class Question extends React.Component {
         }))
     }
 
+    deleteQuestion(e) {
+        console.log("Удаляю", e)
+        axios({
+            method: "post",
+            url: "/delete_question/"+this.state.id,
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            },
+        })
+        .then(function (response) {
+            console.log(response);
+          })
+    }
+    updateQuestion(e) {
+        console.log("Обновляю", e)
+        axios({
+            method: "post",
+            url: "/update_question/"+this.state.id,
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            },
+            data:{
+                text: this.state.text,
+                answer: "new",
+                photo: NaN
+            }
+        })
+        .then(function (response) {
+            console.log(response);
+          })
+    }
+    getAnswer(e) {
+        axios({
+            method: "get",
+            url: "/get_answer/"+this.state.id,
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            }
+        })
+        .then((resp) => { console.log(resp.data)})
+    }
     render() {
         return(
         <div className="one-question-container">
@@ -65,6 +108,9 @@ export class Question extends React.Component {
             <div className="circle-empty"/>
             <div className="circle"/>
             <div className="circle"/>
+            <button onClick={e => this.deleteQuestion(e)}>Удалить ({this.state.id})</button>
+            <button onClick={e => this.updateQuestion(e)}>Обновить ({this.state.id})</button>
+            <button onClick={e => this.getAnswer(e)}>Показать ответ({this.state.id})</button>
         </div> 
         )}
 }

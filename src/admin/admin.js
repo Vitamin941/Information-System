@@ -137,7 +137,7 @@ function Admin_(props) {
             </form> 
             
             <div className='main-container'>
-                <SuperList questions={questions}/>
+                <SuperList token={props.token}/>
             </div>
         </div>
     );

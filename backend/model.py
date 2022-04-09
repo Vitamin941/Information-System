@@ -1,3 +1,4 @@
+from cmath import nan
 from core import app
 
 from hmac import compare_digest
@@ -18,19 +19,19 @@ class User(db.Model):
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name_question = db.Column(db.String(80))
     text_question = db.Column(db.Text)
     text_answer = db.Column(db.Text)
+    image = db.Column(db.LargeBinary)
 
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'))
     subject = db.relationship('Subject',
         backref=db.backref('questions', lazy='dynamic'))
 
-    def __init__(self, name_question, text_question, subject, text_answer=''):
-        self.name_question = name_question
+    def __init__(self, text_question, subject, text_answer='', image=None):
         self.text_question = text_question
         self.subject = subject
         self.text_answer = text_answer
+        self.image = image
 
     def __repr__(self):
         return '<Question %r>' % self.name_question

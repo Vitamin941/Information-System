@@ -63,13 +63,15 @@ export class SuperList extends React.Component {
     addToDB(question) {
         axios({
             method: "post",
-            url: "/add_question_subject/1",
+            url: "/add_question",
             headers: {
                 Authorization: 'Bearer ' + this.props.token
             },
             data:{
-                name_question: "",
-                text_question: question.text
+                id_subject: 1,
+                text: question.text,
+                photo: NaN,
+                answer: ""
             },
         })
         .then(function (response) {
@@ -81,7 +83,7 @@ export class SuperList extends React.Component {
         return (
           <div className="questions-container">
                 {this.state.items.map(question => 
-                    <Question text={question.text} level={question.level}/>
+                    <Question text={question.text} level={question.level} id={question.id} token={this.props.token}/>
                 )}
                 {this.state.generatedQuestion
                     ?

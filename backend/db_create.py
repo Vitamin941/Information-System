@@ -11,9 +11,9 @@ if not subject_1:
     subject_1 = Subject("Группа вопросов 1")
     db.session.add(subject_1)
 
-question_1 = db.session.query(Question).filter_by(name_question="Java vs Python").first()
+question_1 = db.session.query(Question).filter_by(text_question="Зачем учить Python если можно кодить на Java?").first()
 if not question_1:
-    question_1 = Question("Java vs Python", "Зачем учить Python если можно кодить на Java?", subject_1, 'Ответ')
+    question_1 = Question("Зачем учить Python если можно кодить на Java?", subject_1, 'Ответ')
     db.session.add(question_1)
 
 rep_1 = db.session.query(Repetition).filter_by(question=question_1, user=admin).first()
