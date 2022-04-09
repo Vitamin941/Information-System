@@ -35,9 +35,6 @@ export class AnswerTextArea extends React.Component {
         e.preventDefault()
         let files = [...e.dataTransfer.files]
         console.log(files)
-
-        var jsonPost = {files_upload: files}
-        axios.post('some url',jsonPost)
     }
 
     render() {

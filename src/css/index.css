@@ -117,7 +117,7 @@ body {
   background-size: 50% 4px,4px 50%; /*thickness = 2px, length = 50% (25px)*/
   background-repeat:no-repeat;
   border-radius:50%;
-  border: none;
+  border: 2px #3BAE39 solid;
   margin: 10px 0 0 10%;
 }
 

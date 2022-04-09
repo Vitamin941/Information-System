@@ -1,5 +1,6 @@
 import React from "react";
 import {Question} from "./Question";
+import axios from "axios";
 
 export class SuperList extends React.Component {
 
@@ -7,7 +8,7 @@ export class SuperList extends React.Component {
         super(props);
 
         this.state = { 
-            items: props.questions, 
+            items: [], 
             text: '',
             generatedQuestion: false
         };
@@ -16,6 +17,35 @@ export class SuperList extends React.Component {
         this.onSubmit = this.onSubmit.bind(this)
     }
 
+    componentDidMount() {
+        let data = []
+        axios({
+            method: "GET",
+            url:"/get_question_subject/1",
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            }
+            })
+            .then(resp => this.setState(prevState => ({
+                items: resp.data.questions,
+                text: prevState.text,
+                generatedQuestion: prevState.generatedQuestion
+            })))
+            .catch(error => console.log(error))
+    }
+
+    // componentDidUpdate() {
+    //     axios({
+    //         method: "POST",
+    //         url:"add_question_subject/1",
+    //         data:{
+    //             text_question: items.text
+    //         },
+    //         headers: {
+    //                 Authorization: 'Bearer ' + props.token
+    //     }})
+    // }
+
     onCreate(e) {
         e.preventDefault();
         this.setState(state => ({
@@ -23,15 +53,6 @@ export class SuperList extends React.Component {
             text: state.text,
             generatedQuestion: true
         }))
-        // const newQuestion = {
-        //     text: '',
-        //     difficultyCount: 5
-        // };
-
-        // this.setState(state => ({
-        //     items: state.items.concat(newQuestion),
-        //     text: state.text
-        // }));
     }
 
     onSubmit(e) {
@@ -53,7 +74,7 @@ export class SuperList extends React.Component {
         return (
           <div className="questions-container">
                 {this.state.items.map(question => 
-                    <Question text={question.text} difficultyCount={question.difficultyCount}/>
+                    <Question text={question.text_question} difficultyCount={question.difficultyCount}/>
                 )}
                 {this.state.generatedQuestion
                     ?
