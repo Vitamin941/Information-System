@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect} from 'react'
 import axios from "axios";
+import Ques from "./ques"
 
 function Admin(props) {
+    // const user = ""
     const [user, setUser] = useState() 
     const [questions, setQuestions] = useState([]) 
     const [activ_subject, setActiveSubject] = useState()
@@ -84,6 +86,24 @@ function Admin(props) {
             ...prevNote, [name]: value})
         )}
     
+
+    function deleteQuestion(id) {
+        console.log("delete")
+        setQuestions(questions.filter(qu => qu.id_question !== id))
+        console.log(questions.filter(qu => qu.id_question !== id))
+    }
+    function editQuestion(id, title, text) {
+        console.log("update")
+        
+        const newQ = questions.filter(qu => qu.id_question === id)
+        newQ.text_question = text
+        newQ.name_question = title
+        setQuestions(questions.filter(qu => qu.id_question !== id))
+        questions.push(newQ)
+        setQuestions(questions)
+        console.log()
+        console.log(title, text)
+    }
     useEffect(() =>{
         get_me()
         get_questions(1)
@@ -107,8 +127,12 @@ function Admin(props) {
                         value={questionData.text} />
                 <button onClick={add}>Добавить</button>
             </form> 
+
+
             {questions.map((qu) => 
-                <p>- {qu.name_question} (id = {qu.id_question})</p>
+                <div>
+                    <Ques question={qu} delete={deleteQuestion} edit={editQuestion}/>
+                </div>
             )}
         </div>
     );
