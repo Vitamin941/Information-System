@@ -4,7 +4,8 @@ from app import db, User, Subject, Question, Repetition
 db.create_all()
 admin = db.session.query(User).filter_by(username="admin").first()
 if not admin:
-    db.session.add(User(full_name="Admin min", username="admin"))
+    admin = User(full_name="Admin min", username="admin", password="password")
+    db.session.add(admin)
 
 subject_1 = db.session.query(Subject).filter_by(name="Группа вопросов 1").first()
 if not subject_1:

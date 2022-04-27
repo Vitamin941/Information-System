@@ -1,10 +1,11 @@
 from cmath import nan
 from core import app
 
-from hmac import compare_digest
 from datetime import datetime
 from selectors import SelectorKey
 from flask_sqlalchemy import SQLAlchemy
+
+from werkzeug.security import generate_password_hash,  check_password_hash
 
 db = SQLAlchemy(app)
 
@@ -12,10 +13,18 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.Text, nullable=False, unique=True)
     full_name = db.Column(db.Text, nullable=False)
+    password_hash = db.Column(db.String(256), nullable=False)
 
+    def __init__(self, username, full_name, password):
+        self.username = username
+        self.full_name = full_name
+        self.set_password(password)
     # NOTE: In a real application make sure to properly hash and salt passwords
     def check_password(self, password):
-        return compare_digest(password, "password")
+        return check_password_hash(self.password_hash, password)
+    
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
