@@ -46,23 +46,23 @@ function Login(props) {
     // в email и в password и кнопка для авторизации с действием logMeIn
     // Когда вводим какую-то информацию запускается handleChange
     return (
-      <div>
-        <h1>Авторизация</h1>
+      <div className="sign_page">
+        <h1 className="sign_h1">Авторизация</h1>
           <form className="login">
-            <input onChange={handleChange} 
+            <input className="sign_input" onChange={handleChange} 
                   type="username"
                   text={loginForm.username} 
                   name="username" 
                   placeholder="Username" 
                   value={loginForm.username} />
-            <input onChange={handleChange} 
+            <input className="sign_input" onChange={handleChange} 
                   type="password"
                   text={loginForm.password} 
                   name="password" 
                   placeholder="Password" 
                   value={loginForm.password} />
 
-          <button onClick={logMeIn}>Поехали</button>
+          <button className="sign_button" onClick={logMeIn}>Поехали</button>
         </form>
         <a href='/signup'>Регистрация</a>
       </div>

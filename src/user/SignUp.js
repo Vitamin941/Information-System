@@ -45,29 +45,29 @@ function SignUp(props){
         )
     }
     return (
-        <div>
-          <h1>Регистрация</h1>
+        <div className='sign_page'>
+          <h1 className='sign_h1'>Регистрация</h1>
             <form className="signup">
-              <input onChange={handleChange} 
+              <input className="sign_input"onChange={handleChange} 
                     type="username"
                     text={signUpForm.username} 
                     name="username" 
                     placeholder="Username" 
                     value={signUpForm.username} />
-              <input onChange={handleChange} 
+              <input className="sign_input"onChange={handleChange} 
                     type="fullname"
                     text={signUpForm.fullname} 
                     name="fullname" 
                     placeholder="Fullname" 
                     value={signUpForm.fullname} />
-              <input onChange={handleChange} 
+              <input className="sign_input" onChange={handleChange} 
                     type="password"
                     text={signUpForm.password} 
                     name="password" 
                     placeholder="Password" 
                     value={signUpForm.password} />
   
-            <button onClick={signUp}>Поехали</button>
+            <button className="sign_button" onClick={signUp}>Поехали</button>
           </form>
           <a href='/'>Страница входа</a>
         </div>
