@@ -1,3 +1,4 @@
+from urllib import response
 from core import app
 from model import *
 
@@ -34,7 +35,6 @@ def user_lookup_callback(_jwt_header, jwt_data):
 def login():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
-    print(username, password)
     user = User.query.filter_by(username=username).one_or_none()
     if not user or not user.check_password(password):
         return jsonify("Wrong username or password"), 401
@@ -45,6 +45,32 @@ def login():
     # return jsonify(access_token=access_token)
     response = {"access_token":access_token}
     return response
+
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    username = request.json.get("username", None)
+    fullname = request.json.get("fullname", None)
+    password = request.json.get("password", None)
+
+    user = db.session.query(User).filter_by(username=username).first()
+    if not user:
+        user = User(full_name=fullname, username=username, password=password)
+        db.session.add(user)
+        db.session.commit()
+    else:
+        return jsonify("A user with this name exists"), 401
+    # user = User.query.filter_by(username=username).one_or_none()
+    # if not user or not user.check_password(password):
+    #     return jsonify("Wrong username or password"), 401
+    
+    
+    # # Notice that we are passing in the actual sqlalchemy user object here
+    # access_token = create_access_token(identity=user)
+    # # return jsonify(access_token=access_token)
+    # response = {"access_token":access_token}
+
+    return jsonify("Вы удачно зарегестрировались!"), 200
 
 
 @app.route("/logout", methods=["POST"])

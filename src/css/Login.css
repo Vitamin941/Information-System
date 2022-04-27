@@ -1,0 +1,43 @@
+html, body{
+    height: 100%;
+}
+header{
+    display: none;
+}
+body{
+    display: flex;
+    justify-content: center;
+}
+#root{
+    margin: auto;
+    width: 400px;
+}
+
+h1{
+    text-align: center;
+    font: 38px sans-serif;
+}
+.signup, .login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input{
+    width: 300px;
+    height: 25px;
+    border:2px solid #4D784D;
+    border-radius: 5px;
+    margin-top: 10px;    
+    padding-left: 10px;
+}
+
+button{
+    margin: 10px;
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #3BAE39;
+    color: #FFFFFF;
+    font: 20px sans-serif;
+}

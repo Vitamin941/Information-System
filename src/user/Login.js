@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from "axios";
+import '../css/Login.css';
 
 function Login(props) {
 
@@ -46,7 +47,7 @@ function Login(props) {
     // Когда вводим какую-то информацию запускается handleChange
     return (
       <div>
-        <h1>Login: panther, Password: password</h1>
+        <h1>Авторизация</h1>
           <form className="login">
             <input onChange={handleChange} 
                   type="username"
@@ -63,6 +64,7 @@ function Login(props) {
 
           <button onClick={logMeIn}>Поехали</button>
         </form>
+        <a href='/signup'>Регистрация</a>
       </div>
     );
 }

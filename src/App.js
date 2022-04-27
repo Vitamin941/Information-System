@@ -7,6 +7,7 @@ import useToken from './user/useToken'
 
 import Main from './main'
 import Admin_ from './admin/admin'
+import SignUp from './user/SignUp'
 
 
 function App() {
@@ -24,7 +25,11 @@ function App() {
 
               Пока эта функция не используется и любому пользователю доступны все куски кода :)*/}
               {!token && token!=="" &&token!== undefined?  
-                <Login setToken={setToken} />
+              <Routes>
+                  <Route exac path="/" element={<Login setToken={setToken} />}></Route>
+                  <Route exac path="/signup" element={<SignUp />}></Route>
+              </Routes>
+                
               
               :( 
                 <Routes>
