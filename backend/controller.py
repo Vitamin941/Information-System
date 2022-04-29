@@ -60,15 +60,6 @@ def signup():
         db.session.commit()
     else:
         return jsonify("A user with this name exists"), 401
-    # user = User.query.filter_by(username=username).one_or_none()
-    # if not user or not user.check_password(password):
-    #     return jsonify("Wrong username or password"), 401
-    
-    
-    # # Notice that we are passing in the actual sqlalchemy user object here
-    # access_token = create_access_token(identity=user)
-    # # return jsonify(access_token=access_token)
-    # response = {"access_token":access_token}
 
     return jsonify("Вы удачно зарегестрировались!"), 200
 
@@ -105,10 +96,12 @@ def subject():
 @jwt_required()
 def question_subject(id):
     subject = Subject.query.get(id)
+    user_id = current_user.id
+    rep = db.session.query(Repetition).filter(Repetition.user_id == user_id).all()
     questions = [{
-        "text":qu.text_question,
-        "level": 4,
-        "id":qu.id} for qu in subject.questions.all()]
+        "text":Question.query.get(qu.question_id).text_question,
+        "level": qu.level,
+        "id":qu.question_id} for qu in rep]
     response = jsonify({
         "questions": questions
     })

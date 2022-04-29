@@ -58,10 +58,9 @@ class Repetition(db.Model):
     time_repetition = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     level = db.Column(db.Integer)
 
-    def __init__(self, question, user, subject, level):
+    def __init__(self, question, user, level):
         self.question = question
         self.user = user
-        self.subject = subject
         self.level = level
 
     def __repr__(self):

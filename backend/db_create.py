@@ -19,7 +19,7 @@ if not question_1:
 
 rep_1 = db.session.query(Repetition).filter_by(question=question_1, user=admin).first()
 if not rep_1:
-    rep_1 = Repetition(question_1, admin, subject_1, 2)
+    rep_1 = Repetition(question_1, admin, 2)
     db.session.add(rep_1)
 
 db.session.commit()
