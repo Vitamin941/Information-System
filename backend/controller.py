@@ -118,6 +118,8 @@ def add_question_subject():
     subject = Subject.query.get(id)
     question = Question(text_question, subject, text_answer, img)
     db.session.add(question)
+    rep = Repetition(question, current_user, 0)
+    db.session.add(rep)
     db.session.commit()
     return jsonify({
         "id":question.id
