@@ -129,6 +129,8 @@ def add_question_subject():
 @jwt_required()
 def delete_question(id):
     question = Question.query.get(id)
+    rep = Repetition.query.filter(Repetition.question_id == id and Repetition.user_id == current_user.id)[0]
+    db.session.delete(rep)
     db.session.delete(question)
     db.session.commit()
     response = jsonify({
