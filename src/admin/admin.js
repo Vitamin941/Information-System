@@ -14,6 +14,9 @@ function Admin_(props) {
         text: ""
     })
 
+    const [repQu, setRepQu] = useState([])
+    const [rep_, setRep] = useState(0)
+
     function get_questions(id){
         axios({
             method: "GET",
@@ -110,9 +113,47 @@ function Admin_(props) {
         console.log(title, text)
     }
     
+    function get_rep(){
+        axios({
+            method: "GET",
+            url:"/get_repit_quastion",
+            headers: {
+                Authorization: 'Bearer ' + props.token
+            }
+            })
+        .then((resp) => {
+            if (resp.data.question.length > 0){
+                setRep(1)
+                setRepQu(resp.data.question[0].rep_id)
+            }
+        })
+        .catch(error => console.log(error))
+    }
+
+    function correctly_answered(rep_id){
+        axios({
+            method: "POST",
+            url:"/correctly_answered_quastion/" + rep_id,
+            headers: {
+                Authorization: 'Bearer ' + props.token
+            }
+            })
+        .catch(error => console.log(error))
+    }
+    function wrong_answered(rep_id){
+        axios({
+            method: "POST",
+            url:"/wrong_answered_quastion/" + rep_id,
+            headers: {
+                Authorization: 'Bearer ' + props.token
+            }
+            })
+        .catch(error => console.log(error))
+    }
     useEffect(() =>{
         get_me()
         get_questions(1)
+        get_rep()
     },[])  
     
     return (
@@ -139,6 +180,15 @@ function Admin_(props) {
             <div className='main-container'>
                 <SuperList token={props.token}/>
             </div>
+             {rep_ > 0 ? 
+              (  <div>
+                    <button onClick={() => correctly_answered(repQu)}>Правильно {repQu}</button>
+                    <button onClick={() => wrong_answered(repQu)}>Неправильно {repQu}</button>
+                </div>
+              ) : (
+                  <p>Вопросов для повторения нет</p>
+              )
+            }
         </div>
     );
 }

@@ -1,6 +1,9 @@
+from calendar import month
 from urllib import response
 from core import app
 from model import *
+from datetime import datetime, timedelta
+from sqlalchemy import and_
 
 from flask import jsonify
 from flask import request
@@ -95,7 +98,7 @@ def subject():
 @app.route("/get_question_subject/<id>", methods=["GET"])
 @jwt_required()
 def question_subject(id):
-    subject = Subject.query.get(id)
+    subject = Subject.query.get(id) #НАСТРОИТЬ ПОИСК ПО КАТЕГОРИЯМ
     user_id = current_user.id
     rep = db.session.query(Repetition).filter(Repetition.user_id == user_id).all()
     questions = [{
@@ -154,9 +157,70 @@ def гupdate_question(id):
 @app.route("/get_answer/<id>", methods=["GET"])
 @jwt_required()
 def get_answer(id):
-    quation = Question.query.get(id)
+    question = Question.query.get(id)
     response = jsonify({
-        "answer": quation.text_answer,
-        "photo": quation.image
+        "answer": question.text_answer,
+        "photo": question.image
+    })
+    return response
+
+TIMES_LEVEL = [
+    timedelta(seconds=30),
+    timedelta(minutes=20),
+    timedelta(hours=8),
+    timedelta(days=1),
+    timedelta(weeks=1),
+    timedelta(weeks=3),
+]
+
+@app.route("/get_repit_quastion", methods=["GET"])
+@jwt_required()
+def get_repit_quastion():
+    user_id = current_user.id
+    rep = db.session.query(Repetition).filter(and_(Repetition.user_id == user_id, Repetition.time_repetition < datetime.now()))
+    rep_sort = rep.order_by(Repetition.time_repetition.asc()).limit(1).all()
+    if len(rep_sort) == 0:
+        status = "There's nothing to repeat"
+    else:
+        status = "OK"
+    question = [{
+        "text":Question.query.get(qu.question_id).text_question,
+        "level": qu.level,
+        "id":qu.question_id,
+        "rep_id":qu.id
+    } for qu in rep_sort]
+    response = jsonify({
+        "question": question,
+        "status": status
+    })
+    return response
+
+
+@app.route("/correctly_answered_quastion/<id>", methods=["POST"])
+@jwt_required()
+def correctly_answered(id):
+    rep = Repetition.query.get(id) 
+    level = rep.level
+    if level < 5:
+        level += 1
+    rep.time_repetition = datetime.now() + TIMES_LEVEL[level]
+    rep.level = level
+    db.session.commit()
+    response = jsonify({
+        "status":"OK"
+    })
+    return response
+
+
+@app.route("/wrong_answered_quastion/<id>", methods=["POST"])
+@jwt_required()
+def wrong_answered(id):
+    rep = Repetition.query.get(id)
+    level = 0
+    rep.time_repetition = datetime.now() + TIMES_LEVEL[level]
+    rep.level = level
+    db.session.commit()
+    response = jsonify({
+        "status":"OK"
     })
     return response
