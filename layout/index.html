@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../layout/Index_makc.css">
+    <script>
+      function OpenWindow(e) {
+        console.log(e)
+        var classNow = e.target.parentElement.children[0].className;
+         if (classNow === "user-window"){
+           e.target.parentElement.children[0].className ="user-window-hidden"
+           classNow = "user-window-hidden"
+        }else if (classNow === "user-window-hidden"){
+           e.target.parentElement.children[0].className ="user-window"
+         }
+        }
+       //export default OpenWindow;
+    </script> 
+</head>
+<body>
+  <div id="root">
+    <div class="main">
+      <nav class="nav-bar_1">
+       <a href="#" class="link">Что-то есть..</a>
+       <a href="#" class="link">Что-то есть..</a>
+       <a href="#" class="link">Что-то есть..</a>
+
+      <div class="block-user-window"> 
+        <div class="user-window-hidden"> 
+          <form  class="get">
+            <input  
+            type="text" class="get-user-window"
+            placeholder="Поиск"/>
+            <button type="submit" class="button-get-user-window"></button>
+          </form>
+        <div class="text-user">
+          <ul>
+                    <li>Первый пункт</li>
+                    <li>Второй пункт</li>
+                    <li>Третий пункт</li>
+          </ul>
+        </div>
+          <textarea class="email-user-window">
+          </textarea >
+          <form>
+            <button class="button-email-user-window">Отправить</button> 
+          </form>
+          <div class="button-user-window">
+            <a class="button-email-user-Settings"></a> 
+            <a class="button-email-user-Exit"></a>
+          </div>
+
+        </div>
+        <div class="user-window-link" onClick="OpenWindow(event)"></div>
+       
+      </div>
+
+     </nav>
+
+   <div class='main-container'>
+    <div class="question-container">
+      <div class="text-one-heading"><p class="text-heading">Заучивание вопросов</p></div>
+      <div class="button-question">
+        <a class="button-question-previous"></a> 
+        <a class="button-question-edit"></a>
+        <a class="button-question-random"></a>
+        <a class="button-question-next"></a>
+      </div>
+    <div class="one-question-container">
+      <div class="text-container">
+          <p class="question-text">{texропрьt}</p>
+      </div>
+      <div class="circle"> </div>
+      <div class="circle"> </div>
+      <div class="circle"> </div>
+      <div class="circle"> </div>
+      <div class="circle"> </div>
+  </div>
+  <textarea class="answer-text-notes">
+  </textarea>
+</div>
+<div class='answer-container'>
+  <div  class="answer-text-area">
+    <p class="load-text1">Текстовый ответ</p>
+  </div>
+
+  <div class="photo-loader"> 
+      <p class="load-text">Ответ в виде<br/> изображения<br/></p>
+  </div>
+</div>
+  </div>
+   </div>
+ </div>
+</div>
+    
+</body>
+</html>
