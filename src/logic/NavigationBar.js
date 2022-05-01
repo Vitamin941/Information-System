@@ -7,8 +7,8 @@ import '../css/User-window.css'
 const NavigationBar = () => (
     <nav className="nav-bar">
         <a href="/admin" className="link">Админка</a>
-        <a href="#" className="link">ссылка куда-то</a>
-        <a href="#" className="link">ссылка куда-то</a>
+        <a href="/repetition" className="link">Повторение</a>
+        <a href="/" className="link">Главная</a>
         <div className="block-user-window">            
             <div className="user-window-hidden">
               <form  className="get">

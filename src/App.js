@@ -8,6 +8,7 @@ import useToken from './user/useToken'
 import Main from './main'
 import Admin_ from './admin/admin'
 import SignUp from './user/SignUp'
+import Repetition from './rep'
 
 
 function App() {
@@ -34,6 +35,8 @@ function App() {
                 <Routes>
                   <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
                   <Route exact path="/admin/" element={<Admin_ token={token} setToken={setToken}/>}></Route>
+                  <Route exact path="/repetition/" element={<Repetition token={token} setToken={setToken}/>}></Route>
+
                 </Routes>
 
               )}
