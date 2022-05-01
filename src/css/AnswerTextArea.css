@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100&display=swap');
 
 .answer-container {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    background: #FFFFFF;
-    width: 50%;
-    height: 100vh;
-    margin: 10px 2px 2px 2px;
-  }
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background: #FFFFFF;
+  width: 50%;
+  height: 100vh;
+  margin: 10px 2px 2px 2px;
+}
   
   .answer-text-area {
     background: rgba(230, 255, 230, 0.5);

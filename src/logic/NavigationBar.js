@@ -16,7 +16,13 @@ const NavigationBar = () => (
                 placeholder="Поиск"/>
                 <button type="submit" className="button-get-user-window"></button>
               </form>
-
+            <div className="text-user">
+              <ul>
+                        <li>Первый пункт</li>
+                        <li>Второй пункт</li>
+                        <li>Третий пункт</li>
+              </ul>
+            </div>
               <textarea className="email-user-window">
               </textarea >
               <form>

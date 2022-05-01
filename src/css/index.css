@@ -261,3 +261,10 @@ body {
   font-size: 16px;
   color: #000000;
 }
+.text-user{
+  width: 219px;
+  height: 135px;
+  position: absolute;
+  left: 23px;
+  top: 82px;
+}
