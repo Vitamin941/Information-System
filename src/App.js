@@ -24,28 +24,20 @@ function App() {
               
 
               Пока эта функция не используется и любому пользователю доступны все куски кода :)*/}
-<<<<<<< HEAD
+
               {!token && token!=="" &&token!== undefined?  
-              <Routes>
+                <Routes>
                   <Route exac path="/" element={<Login setToken={setToken} />}></Route>
                   <Route exac path="/signup" element={<SignUp />}></Route>
-              </Routes>
-                
-=======
-              {/*{!token && token!=="" &&token!== undefined?  
-                <Login setToken={setToken} />
->>>>>>> sliders
-              
-            :( */}
+                </Routes>
+              :(
                 <Routes>
                   <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
                   <Route exact path="/admin/" element={<Admin_ token={token} setToken={setToken}/>}></Route>
                 </Routes>
-<<<<<<< HEAD
+
               )}
-=======
-              {/*})};*/}
->>>>>>> sliders
+
           </BrowserRouter>
     );
   }
