@@ -43,19 +43,6 @@ export class Question extends React.Component {
         }))
     }
 
-    // deleteQuestion(e) {
-    //     console.log("Удаляю", e)
-    //     axios({
-    //         method: "post",
-    //         url: "/delete_question/"+this.state.id,
-    //         headers: {
-    //             Authorization: 'Bearer ' + this.props.token
-    //         },
-    //     })
-    //     .then(function (response) {
-    //         console.log(response);
-    //       })
-    // }
     updateQuestion(e) {
         console.log("Обновляю", e)
         axios({
