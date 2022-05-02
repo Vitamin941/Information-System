@@ -1,15 +1,13 @@
-import { AnswerTextArea } from './logic/AnswerTextArea';
-import { SuperList } from './logic/SuperList';
+import { AnswerTextArea } from './AnswerTextArea';
+import { SuperList } from './SuperList';
 
 import { useState, useEffect } from 'react'
-import axios from "axios";
 
 function Main(props) {
 
     return (
         <div className="main">
             <div className='main-container'>
-                    {/* <SuperList questions={questions} /> */}
                     <SuperList token={props.token}/>
                     <AnswerTextArea/>
             </div>

@@ -15,6 +15,7 @@ export class SuperList extends React.Component {
 
         this.onCreate = this.onCreate.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+        this.delete = this.deleteQuestion.bind(this)
     }
 
     componentDidMount() {
@@ -33,6 +34,23 @@ export class SuperList extends React.Component {
             .catch(error => console.log(error))
     }
 
+    deleteQuestion(qu_del) {
+
+        console.log("Удаляю", qu_del)
+        axios({
+            method: "post",
+            url: "/delete_question/"+qu_del.id,
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            },
+        })
+        .then(function (response) {
+            console.log(response);
+          })
+        const newItems = this.state.items.filter(qu => qu !== qu_del)
+        console.log(newItems)
+        this.setState({items:newItems})
+    }
 
     onCreate(e) {
         e.preventDefault();
@@ -74,16 +92,16 @@ export class SuperList extends React.Component {
                 answer: ""
             },
         })
-        .then(function (response) {
-            console.log(response);
-          })
+        .then(resp =>  console.log(resp.data.id))
+        .then(resp => this.state.items[this.state.items.length - 1].id = resp.data.id )
+
     }
 
     render() {
         return (
           <div className="questions-container">
                 {this.state.items.map(question => 
-                    <Question text={question.text} level={question.level} id={question.id} token={this.props.token}/>
+                    <Question text={question.text} level={question.level} id={question.id} token={this.props.token} del={() => this.deleteQuestion(question)}/>
                 )}
                 {this.state.generatedQuestion
                     ?
@@ -95,7 +113,8 @@ export class SuperList extends React.Component {
                 }
                 <div className="buttons-container">
                     <button className="question-adder" onClick={this.onCreate} />
-                    {this.state.generatedQuestion?
+                    {this.state.generatedQuestion
+                        ?
                         <button className="question-submiter" onClick={this.onSubmit} />
                         :
                         <></>

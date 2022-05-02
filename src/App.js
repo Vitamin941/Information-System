@@ -5,10 +5,10 @@ import Login from './user/Login'
 import Header from './user/Header'
 import useToken from './user/useToken' 
 
-import Main from './main'
+import Main from './logic/main'
 import Admin_ from './admin/admin'
 import SignUp from './user/SignUp'
-import Repetition from './rep'
+import Repetition from './logic/rep'
 
 
 function App() {

@@ -9,4 +9,4 @@ module.exports = function(app) {
     })
   );
 };
-"http-proxy-middleware": "^2.0.4",
+// "http-proxy-middleware": "^2.0.4",
