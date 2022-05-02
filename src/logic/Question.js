@@ -43,19 +43,19 @@ export class Question extends React.Component {
         }))
     }
 
-    deleteQuestion(e) {
-        console.log("Удаляю", e)
-        axios({
-            method: "post",
-            url: "/delete_question/"+this.state.id,
-            headers: {
-                Authorization: 'Bearer ' + this.props.token
-            },
-        })
-        .then(function (response) {
-            console.log(response);
-          })
-    }
+    // deleteQuestion(e) {
+    //     console.log("Удаляю", e)
+    //     axios({
+    //         method: "post",
+    //         url: "/delete_question/"+this.state.id,
+    //         headers: {
+    //             Authorization: 'Bearer ' + this.props.token
+    //         },
+    //     })
+    //     .then(function (response) {
+    //         console.log(response);
+    //       })
+    // }
     updateQuestion(e) {
         console.log("Обновляю", e)
         axios({
@@ -108,7 +108,7 @@ export class Question extends React.Component {
             <div className="circle-empty"/>
             <div className="circle"/>
             <div className="circle"/>
-            <button onClick={e => this.deleteQuestion(e)}>Удалить ({this.state.id})</button>
+            <button onClick={() => this.props.deleteItem()}>Удалить ({this.state.id})</button>
             <button onClick={e => this.updateQuestion(e)}>Обновить ({this.state.id})</button>
             <button onClick={e => this.getAnswer(e)}>Показать ответ({this.state.id})</button>
         </div> 

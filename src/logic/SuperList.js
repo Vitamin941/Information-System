@@ -1,6 +1,7 @@
 import React from "react";
 import {Question} from "./Question";
 import axios from "axios";
+import { useState } from "react/cjs/react.production.min";
 
 export class SuperList extends React.Component {
 
@@ -33,6 +34,25 @@ export class SuperList extends React.Component {
             .catch(error => console.log(error))
     }
 
+    deleteItem(qu_del){
+        console.log("Удаляю", qu_del)
+        axios({
+            method: "post",
+            url: "/delete_question/"+qu_del.id,
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            },
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        this.state = {
+            items: this.state.items.filter(qu => qu !== qu_del),
+            text: this.state.text,
+            generatedQuestion: this.state.generatedQuestion
+        }
+        this.setState(this.state)
+    }
 
     onCreate(e) {
         e.preventDefault();
@@ -49,8 +69,9 @@ export class SuperList extends React.Component {
         const newQuestion = {
             text: input.value,
             difficultyCount: 5,
+            id: -1
         };
-
+        
         this.setState(state => ({
             items: state.items.concat(newQuestion),
             text: state.text,
@@ -75,7 +96,7 @@ export class SuperList extends React.Component {
             },
         })
         .then(function (response) {
-            console.log(response);
+            question.id = response.data.id;
           })
     }
 
@@ -83,7 +104,7 @@ export class SuperList extends React.Component {
         return (
           <div className="questions-container">
                 {this.state.items.map(question => 
-                    <Question text={question.text} level={question.level} id={question.id} token={this.props.token}/>
+                    <Question key={question.id} text={question.text} level={question.level} id={question.id} token={this.props.token} deleteItem={() => this.deleteItem(question)}/>
                 )}
                 {this.state.generatedQuestion
                     ?
