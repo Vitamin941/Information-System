@@ -1,4 +1,3 @@
-import NavigationBar from './logic/NavigationBar';
 import { AnswerTextArea } from './logic/AnswerTextArea';
 import { SuperList } from './logic/SuperList';
 
@@ -9,7 +8,6 @@ function Main(props) {
 
     return (
         <div className="main">
-            <NavigationBar/>
             <div className='main-container'>
                     {/* <SuperList questions={questions} /> */}
                     <SuperList token={props.token}/>

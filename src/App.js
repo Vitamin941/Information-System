@@ -17,7 +17,6 @@ function App() {
   
     return (
           <BrowserRouter> {/* Роутеры для перехода на разные страницы пока только "/" */}
-              <Header token={removeToken}/> {/* Блок где находится кнопка для авторизации, пока тут */}
               {/* Далее идет проверка на наличие токена, нужного для авторизации
               Если его нет на компьютере, то предлагается авторизоваться и перейти на страницу Login.js
               Если токен есть, то используются роутеры.
@@ -32,13 +31,14 @@ function App() {
                   <Route exac path="/signup" element={<SignUp />}></Route>
                 </Routes>
               :(
-                <Routes>
-                  <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
-                  <Route exact path="/admin/" element={<Admin_ token={token} setToken={setToken}/>}></Route>
-                  <Route exact path="/repetition/" element={<Repetition token={token} setToken={setToken}/>}></Route>
-
-                </Routes>
-
+                <>
+                  <Header removeToken={removeToken}/>
+                  <Routes>
+                    <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
+                    <Route exact path="/admin/" element={<Admin_ token={token} setToken={setToken}/>}></Route>
+                    <Route exact path="/repetition/" element={<Repetition token={token} setToken={setToken}/>}></Route>
+                  </Routes>
+                </>
               )}
 
           </BrowserRouter>

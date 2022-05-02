@@ -18,7 +18,7 @@ function useToken() {
 
   function removeToken() {
     localStorage.removeItem("token"); //удаляем из системы
-    setToken(null); // чистим переменную
+    setToken(""); // чистим переменную
   }
 
   // Возвращает  токен, метод его удаления и как его сохранять
