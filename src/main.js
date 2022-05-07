@@ -10,7 +10,9 @@ function Main(props) {
         <div className="main">
             <div className='main-container'>
                     {/* <SuperList questions={questions} /> */}
-                    <SuperList token={props.token}/>
+                    <SuperList token={props.token} 
+                    id_subject={props.id_subject} setSubject={props.setSubject}
+                    questions={props.questions} setQuestions={props.setQuestions}/>
                     <AnswerTextArea/>
             </div>
         </div>

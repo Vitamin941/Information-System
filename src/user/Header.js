@@ -73,7 +73,9 @@ export class Header extends React.Component {
 
   activeSubject(subject_id, subject_name) {
     document.querySelector(".link-subject").innerText = subject_name
-    console.log(subject_id)
+    document.querySelector(".subject-heading").innerHTML = subject_name
+    this.props.setSubject(subject_id)
+    this.getQuestionSubjects(subject_id)
   }  
 
   createSubject() {
@@ -102,12 +104,27 @@ export class Header extends React.Component {
       console.log(error.response.status)
       console.log(error.response.headers)
       }
-  })
+    })
+  }
+
+  getQuestionSubjects(subject_id) {
+    axios({
+      method: "GET",
+      url:"/get_question_subject/" + subject_id,
+      headers: {
+          Authorization: 'Bearer ' + this.props.token
+      }
+      })
+      .then(resp => {
+        console.log(this.props.id_subject)
+        console.log(resp.data.questions); 
+        this.props.setQuestions(resp.data.questions)})
+      .catch(error => console.log(error))
   }
   render() { return(
         <header className="App-header">
             <nav className="nav-bar">
-                <div className="block-subject">
+                <div className="block-subject" data-id_subject={this.props.id_subject}>
                   <a href="#" className="link link-subject" onClick={this.openSubjects}>Категории</a>
                   <div className="subjects-list-hidden">
                     {this.state.subject.map(subject => 

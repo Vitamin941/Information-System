@@ -1,7 +1,7 @@
 import React from "react";
 import {Question} from "./Question";
 import axios from "axios";
-import { useState } from "react/cjs/react.production.min";
+
 
 export class SuperList extends React.Component {
 
@@ -9,29 +9,12 @@ export class SuperList extends React.Component {
         super(props);
 
         this.state = { 
-            items: [], 
             text: '',
             generatedQuestion: false
         };
 
         this.onCreate = this.onCreate.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
-    }
-
-    componentDidMount() {
-        axios({
-            method: "GET",
-            url:"/get_question_subject/1",
-            headers: {
-                Authorization: 'Bearer ' + this.props.token
-            }
-            })
-            .then(resp => this.setState(prevState => ({
-                items: resp.data.questions,
-                text: prevState.text,
-                generatedQuestion: prevState.generatedQuestion
-            })))
-            .catch(error => console.log(error))
     }
 
     deleteItem(qu_del){
@@ -46,12 +29,7 @@ export class SuperList extends React.Component {
         .then(function (response) {
             console.log(response);
         })
-        this.state = {
-            items: this.state.items.filter(qu => qu !== qu_del),
-            text: this.state.text,
-            generatedQuestion: this.state.generatedQuestion
-        }
-        this.setState(this.state)
+        this.props.setQuestions(this.props.questions.filter(qu => qu !== qu_del))
     }
 
     onCreate(e) {
@@ -71,9 +49,8 @@ export class SuperList extends React.Component {
             difficultyCount: 5,
             id: -1
         };
-        
+        this.props.setQuestions(this.props.questions.concat(newQuestion))
         this.setState(state => ({
-            items: state.items.concat(newQuestion),
             text: state.text,
             generatedQuestion: false
         }));
@@ -89,7 +66,7 @@ export class SuperList extends React.Component {
                 Authorization: 'Bearer ' + this.props.token
             },
             data:{
-                id_subject: 1,
+                id_subject: this.props.id_subject,
                 text: question.text,
                 photo: NaN,
                 answer: ""
@@ -99,11 +76,14 @@ export class SuperList extends React.Component {
             question.id = response.data.id;
           })
     }
-
-    render() {
+    
+    render() { 
         return (
           <div className="questions-container">
-                {this.state.items.map(question => 
+                <div className="text-one-heading">
+                    <h2 className="subject-heading" data-id_subject={this.props.id_subject}></h2>
+                </div>
+                {this.props.questions.map(question => 
                     <Question key={question.id} text={question.text} level={question.level} id={question.id} 
                     token={this.props.token} deleteItem={() => this.deleteItem(question)}/>
                 )}

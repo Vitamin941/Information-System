@@ -1,4 +1,5 @@
 from calendar import month
+from statistics import quantiles
 from urllib import response
 from core import app
 from model import *
@@ -112,11 +113,17 @@ def add_subject():
 def question_subject(id):
     subject = Subject.query.get(id) #НАСТРОИТЬ ПОИСК ПО КАТЕГОРИЯМ
     user_id = current_user.id
-    rep = db.session.query(Repetition).filter(Repetition.user_id == user_id).all()
-    questions = [{
-        "text":Question.query.get(qu.question_id).text_question,
-        "level": qu.level,
-        "id":qu.question_id} for qu in rep]
+    rep = db.session.query(Repetition).filter(Repetition.user_id == user_id)
+    questions = []
+    for qu in rep:
+        if (Question.query.get(qu.question_id).subject == subject):
+            questions.append(
+                { 
+                    "text":Question.query.get(qu.question_id).text_question,
+                    "level": qu.level,
+                    "id":qu.question_id
+                }
+            )
     response = jsonify({
         "questions": questions
     })
