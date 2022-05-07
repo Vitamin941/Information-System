@@ -104,7 +104,8 @@ export class SuperList extends React.Component {
         return (
           <div className="questions-container">
                 {this.state.items.map(question => 
-                    <Question key={question.id} text={question.text} level={question.level} id={question.id} token={this.props.token} deleteItem={() => this.deleteItem(question)}/>
+                    <Question key={question.id} text={question.text} level={question.level} id={question.id} 
+                    token={this.props.token} deleteItem={() => this.deleteItem(question)}/>
                 )}
                 {this.state.generatedQuestion
                     ?

@@ -21,6 +21,7 @@ export class Question extends React.Component {
 
     HandleClick = (e) => {
         e.preventDefault()
+        console.log("Начал редактировать")
         this.setState(state => ({
             text: state.text,
             clicked: !state.clicked
@@ -29,6 +30,7 @@ export class Question extends React.Component {
 
     HandleChange(e) {
         e.preventDefault()
+        console.log("Редактирую")
         this.setState(state => ({
             text: e.target.value,
             clicked: state.clicked
@@ -37,6 +39,7 @@ export class Question extends React.Component {
 
     HandleSubmit(e) {
         e.preventDefault()
+        console.log("Сделал что-то другое")
         this.setState(state => ({
             text: state.text,
             clicked: false

@@ -32,7 +32,7 @@ function App() {
                 </Routes>
               :(
                 <>
-                  <Header removeToken={removeToken}/>
+                  <Header removeToken={removeToken} token={token}/>
                   <Routes>
                     <Route exact path="/" element={<Main token={token} setToken={setToken}/>}></Route>
                     <Route exact path="/admin/" element={<Admin_ token={token} setToken={setToken}/>}></Route>

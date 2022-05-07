@@ -51,7 +51,39 @@ body {
   padding: auto;
   text-decoration: none;
 }
+/* Блок выбора категории */
+.block-subject{
+  position: relative;
+}
+.subjects-list {
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  background-color: #FFFFFF;
+  position: absolute;
+  width: 20vw;
+  border: 0.3vh solid #3BAE39;
+  background: #FDFDFD;
+  box-sizing: border-box;
+  box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.25);
+}
 
+.subjects-list-hidden{
+  display: none;
+}
+
+.el-subjects-list{
+  font-size: 2vh;
+  text-align: center;
+  color: #3BAE39;
+  padding: auto;
+  text-decoration: none;
+}
+.el-subjects-list:hover{
+  color: #FDFDFD;
+  background-color: #3BAE39;
+}
+/* ======================== */
 .questions-container {
   scrollbar-width: thin;
   overflow-y: scroll;
@@ -116,7 +148,7 @@ body {
   align-self: center;
   position: absolute;
   background-color: rgba(255, 255, 255, 0);
-  border: none;
+  /* border: none; */
   resize: none;
   margin: 5px 0 0 0;
   height: 6rem;
