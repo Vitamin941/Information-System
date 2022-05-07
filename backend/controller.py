@@ -95,6 +95,18 @@ def subject():
     })
     return response
 
+@app.route("/add_subject", methods=["POST"])
+@jwt_required()
+def add_subject():
+    name_subject = request.json['name_subject']
+    subject_new = Subject(name_subject)
+    db.session.add(subject_new)
+    db.session.commit()
+    return jsonify({
+        "status": "OK",
+        "id":subject_new.id
+    })
+
 @app.route("/get_question_subject/<id>", methods=["GET"])
 @jwt_required()
 def question_subject(id):

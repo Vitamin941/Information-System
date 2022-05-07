@@ -11,6 +11,7 @@ export class Header extends React.Component {
     }
     this.logMeOut = this.logMeOut.bind(this)
     this.openSubjects = this.openSubjects.bind(this)
+    this.createSubject = this.createSubject.bind(this)
   }
   // Запрос на выход
   logMeOut() {
@@ -69,10 +70,40 @@ export class Header extends React.Component {
         e.target.parentElement.children[1].className ="subjects-list"
     }
   }
+
   activeSubject(subject_id, subject_name) {
     document.querySelector(".link-subject").innerText = subject_name
     console.log(subject_id)
   }  
+
+  createSubject() {
+    let name_subject = document.querySelector(".create-subject-input").value
+    axios({
+      method: "POST",
+      url: "/add_subject",
+      headers: {
+          Authorization: 'Bearer ' + this.props.token
+      },
+      data:{
+          name_subject: name_subject
+      },
+    })
+    .then((resp) => {
+      let new_subject = {
+         subject_id: resp.data.id,
+         subject_name: name_subject
+      }
+      this.state.subject = this.state.subject.concat(new_subject)
+      this.setState({subject: this.state.subject})
+      console.log(this.state.subject)
+    }).catch((error) => {
+    if (error.response) {
+      console.log(error.response)
+      console.log(error.response.status)
+      console.log(error.response.headers)
+      }
+  })
+  }
   render() { return(
         <header className="App-header">
             <nav className="nav-bar">
@@ -84,6 +115,10 @@ export class Header extends React.Component {
                       onClick={() => this.activeSubject(subject.subject_id, subject.subject_name)}>
                       {subject.subject_name}</a>
                     )}
+                    <div className="block-create-subject">
+                      <input className="create-subject-input" type="text" placeholder="Новая категория"></input>
+                      <a className="create-subject" onClick={this.createSubject}></a>
+                    </div>
                   </div>
                 </div>
                 <a href="/admin" className="link">Админка</a>
