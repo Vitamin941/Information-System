@@ -9,7 +9,7 @@ if not admin:
 
 subject_1 = db.session.query(Subject).filter_by(name="Группа вопросов 1").first()
 if not subject_1:
-    subject_1 = Subject("Группа вопросов 1")
+    subject_1 = Subject("Группа вопросов 1", admin)
     db.session.add(subject_1)
 
 question_1 = db.session.query(Question).filter_by(text_question="Зачем учить Python если можно кодить на Java?").first()

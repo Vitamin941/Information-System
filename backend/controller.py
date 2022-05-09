@@ -90,7 +90,8 @@ def protected():
 @app.route("/get_subject", methods=["GET"])
 @jwt_required()
 def subject():
-    subjects = [{"subject_name": sbjct.name, "subject_id":sbjct.id} for sbjct in Subject.query.all()]
+    user = current_user
+    subjects = [{"subject_name": sbjct.name, "subject_id":sbjct.id} for sbjct in user.subjects.all()]
     response = jsonify({
         "subject": subjects,
     })
@@ -100,7 +101,8 @@ def subject():
 @jwt_required()
 def add_subject():
     name_subject = request.json['name_subject']
-    subject_new = Subject(name_subject)
+    user = current_user
+    subject_new = Subject(name_subject, user)
     db.session.add(subject_new)
     db.session.commit()
     return jsonify({

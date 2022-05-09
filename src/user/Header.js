@@ -1,18 +1,40 @@
 import React from "react";
 import axios from "axios";
 import '../css/User-window.css'
+import { toHaveStyle } from "@testing-library/jest-dom/dist/matchers";
 
 export class Header extends React.Component {
-  // const [subject, setSubject] = useState([]) 
   constructor(props){
     super(props);
     this.state = {
       subject: [],
+      me: ""
     }
     this.logMeOut = this.logMeOut.bind(this)
+    this.get_me = this.get_me.bind(this)
     this.openSubjects = this.openSubjects.bind(this)
     this.createSubject = this.createSubject.bind(this)
   }
+
+  componentDidMount() {
+    this.get_me()
+  }
+  get_me(){
+    axios({
+        method: "GET",
+        url:"/me",
+        headers: {
+            Authorization: 'Bearer ' + this.props.token
+        }
+    })
+    .then((resp) => {
+      console.log(this.state.me)
+      this.state.me = resp.data.full_name
+      this.setState({me: this.state.me})
+      console.log(this.state.me)
+    })
+    .catch(error => console.log(error))
+}  
   // Запрос на выход
   logMeOut() {
 
@@ -44,31 +66,23 @@ export class Header extends React.Component {
 
   /* Когда пользователь нажимает на кнопку, переключаться раскрывает содержимое */
   openSubjects(e) {
-    var classNameNow = e.target.parentElement.children[1].className;
-    if (classNameNow === "subjects-list"){
-        e.target.parentElement.children[1].className ="subjects-list-hidden"
-        classNameNow = "subjects-list-hidden"
-    }else if (classNameNow === "subjects-list-hidden"){
-        axios({
-          method: "GET",
-          url:"/get_subject",
-          headers: {
-              Authorization: 'Bearer ' + this.props.token
-          }
-        })
-        .then((resp) => {
-            this.state.subject = resp.data.subject
-            this.setState({subject: this.state.subject})
-            console.log(this.state.subject)
-        }).catch((error) => {
-          if (error.response) {
-            console.log(error.response)
-            console.log(error.response.status)
-            console.log(error.response.headers)
-            }
-        })
-        e.target.parentElement.children[1].className ="subjects-list"
-    }
+    axios({
+      method: "GET",
+      url:"/get_subject",
+      headers: {
+          Authorization: 'Bearer ' + this.props.token
+      }
+    })
+    .then((resp) => {
+        this.state.subject = resp.data.subject
+        this.setState({subject: this.state.subject})
+    }).catch((error) => {
+      if (error.response) {
+        console.log(error.response)
+        console.log(error.response.status)
+        console.log(error.response.headers)
+        }
+    })
   }
 
   activeSubject(subject_id, subject_name) {
@@ -125,8 +139,8 @@ export class Header extends React.Component {
         <header className="App-header">
             <nav className="nav-bar">
                 <div className="block-subject" data-id_subject={this.props.id_subject}>
-                  <a href="#" className="link link-subject" onClick={this.openSubjects}>Категории</a>
-                  <div className="subjects-list-hidden">
+                  <a href="#" className="link link-subject" onMouseOver={this.openSubjects}>Категории</a>
+                  <div className="subjects-list">
                     {this.state.subject.map(subject => 
                       <a key={subject.subject_id} href="#" className="el-subjects-list" 
                       onClick={() => this.activeSubject(subject.subject_id, subject.subject_name)}>
@@ -138,11 +152,11 @@ export class Header extends React.Component {
                     </div>
                   </div>
                 </div>
-                <a href="/admin" className="link">Админка</a>
                 <a href="/repetition" className="link">Повторение</a>
                 <a href="/" className="link">Главная</a>
                 <div className="block-user-window">            
                     <div className="user-window-hidden">
+                        <h1 className="name-user" >{this.state.me}</h1>
                         <form  className="get">
                             <input  
                             type="text" className="get-user-window"

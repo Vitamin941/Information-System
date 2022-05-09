@@ -55,7 +55,8 @@ body {
 .block-subject{
   position: relative;
 }
-.subjects-list {
+
+.block-subject:hover .subjects-list{
   display: flex;
   flex-direction: column;
   z-index: 2;
@@ -67,8 +68,7 @@ body {
   box-sizing: border-box;
   box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.25);
 }
-
-.subjects-list-hidden{
+.subjects-list{
   display: none;
 }
 

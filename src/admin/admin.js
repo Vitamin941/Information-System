@@ -161,34 +161,6 @@ function Admin_(props) {
             <h1>Username: {user}</h1>
             <h1>Добавление вопроса ({activ_subject})</h1>
             <a href='/'>Вопросеки</a>
-            <form className="question">
-                <input onChange={handleChange} 
-                        type="text"
-                        text={questionData.title} 
-                        name="title" 
-                        placeholder="Title" 
-                        value={questionData.title} />
-                <input onChange={handleChange} 
-                        type="text"
-                        text={questionData.text} 
-                        name="text" 
-                        placeholder="Text" 
-                        value={questionData.text} />
-                <button onClick={add}>Добавить</button>
-            </form> 
-            
-            <div className='main-container'>
-                <SuperList token={props.token}/>
-            </div>
-             {rep_ > 0 ? 
-              (  <div>
-                    <button onClick={() => correctly_answered(repQu)}>Правильно {repQu}</button>
-                    <button onClick={() => wrong_answered(repQu)}>Неправильно {repQu}</button>
-                </div>
-              ) : (
-                  <p>Вопросов для повторения нет</p>
-              )
-            }
         </div>
     );
 }
