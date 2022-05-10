@@ -11,7 +11,7 @@ export class SuperList extends React.Component {
         this.state = { 
             text: '',
             generatedQuestion: false,
-            activeQuestion: NaN
+            active: null
         };
 
         this.onCreate = this.onCreate.bind(this)
@@ -27,6 +27,11 @@ export class SuperList extends React.Component {
             },
         })
         this.props.setQuestions(this.props.questions.filter(qu => qu !== qu_del))
+    }
+
+    activeAnswer(id){
+        this.state.active = id
+        this.setState({active: id})
     }
     seeAnswer(id){
         axios({
@@ -85,7 +90,6 @@ export class SuperList extends React.Component {
             question.id = response.data.id;
           })
     }
-    
     render() { 
         return (
           <div className="questions-container">
@@ -95,7 +99,8 @@ export class SuperList extends React.Component {
                 {this.props.questions.map(question => 
                     <Question key={question.id} text={question.text} level={question.level} id={question.id} 
                     token={this.props.token} deleteItem={() => this.deleteItem(question)}
-                    seeAnswer={() => this.seeAnswer(question.id)} answer={this.props.answer}/>
+                    seeAnswer={() => this.seeAnswer(question.id)} answer={this.props.answer}
+                    active={this.state.active === question.id ? true : false} updateActive={() => this.activeAnswer(question.id)}/>
                 )}
                 {this.state.generatedQuestion
                     ?

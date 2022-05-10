@@ -111,7 +111,6 @@ export class Header extends React.Component {
       }
       this.state.subject = this.state.subject.concat(new_subject)
       this.setState({subject: this.state.subject})
-      console.log(this.state.subject)
     }).catch((error) => {
     if (error.response) {
       console.log(error.response)
@@ -130,8 +129,8 @@ export class Header extends React.Component {
       }
       })
       .then(resp => {
-        console.log(this.props.id_subject)
-        console.log(resp.data.questions); 
+        // console.log(this.props.id_subject)
+        // console.log(resp.data.questions); 
         this.props.setQuestions(resp.data.questions)})
       .catch(error => console.log(error))
   }

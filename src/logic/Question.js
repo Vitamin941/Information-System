@@ -77,7 +77,7 @@ export class Question extends React.Component {
 
     render() {
         return(
-        <div className="one-question-container" onClick={() => this.props.seeAnswer()}>
+        <div className="one-question-container" onClick={() => {this.props.seeAnswer(); this.props.updateActive()}}>
             {this.state.clicked 
                 ?
                 <div className="text-container" onClick={e => this.HandleClick(e)}>
@@ -94,13 +94,20 @@ export class Question extends React.Component {
                     <p className="question-text">{this.state.text}</p>
                 </div>
             }
-            {this.getCircle(this.state.level).map(type_ => {
-                return <div className={type_}/>
+            {this.getCircle(this.state.level).map((type_, index) => {
+                return <div key={index} className={type_}/>
                 })
             }
+            {this.props.active 
+                ?
+                <>
+                    <button onClick={() => this.props.deleteItem()} className="btn-delete-question"></button>
+                    <button onClick={e => this.updateQuestion(e)} className="btn-update-question"></button>
+                </>
+                :
+                <></>  
+            }
             
-            <button onClick={() => this.props.deleteItem()}>Удалить ({this.state.id})</button>
-            <button onClick={e => this.updateQuestion(e)}>Обновить ({this.state.id})</button>
         </div> 
         )}
 }
