@@ -10,7 +10,8 @@ export class SuperList extends React.Component {
 
         this.state = { 
             text: '',
-            generatedQuestion: false
+            generatedQuestion: false,
+            activeQuestion: NaN
         };
 
         this.onCreate = this.onCreate.bind(this)
@@ -18,7 +19,6 @@ export class SuperList extends React.Component {
     }
 
     deleteItem(qu_del){
-        console.log("Удаляю", qu_del)
         axios({
             method: "post",
             url: "/delete_question/"+qu_del.id,
@@ -26,12 +26,21 @@ export class SuperList extends React.Component {
                 Authorization: 'Bearer ' + this.props.token
             },
         })
-        .then(function (response) {
-            console.log(response);
-        })
         this.props.setQuestions(this.props.questions.filter(qu => qu !== qu_del))
     }
-
+    seeAnswer(id){
+        axios({
+            method: "get",
+            url: "/get_answer/"+id,
+            headers: {
+                Authorization: 'Bearer ' + this.props.token
+            }
+        })
+        .then((resp) => {
+            this.props.setAnswer(resp.data.answer)         
+        })
+        
+    }
     onCreate(e) {
         e.preventDefault();
         this.setState(state => ({
@@ -85,7 +94,8 @@ export class SuperList extends React.Component {
                 </div>
                 {this.props.questions.map(question => 
                     <Question key={question.id} text={question.text} level={question.level} id={question.id} 
-                    token={this.props.token} deleteItem={() => this.deleteItem(question)}/>
+                    token={this.props.token} deleteItem={() => this.deleteItem(question)}
+                    seeAnswer={() => this.seeAnswer(question.id)} answer={this.props.answer}/>
                 )}
                 {this.state.generatedQuestion
                     ?

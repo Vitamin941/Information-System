@@ -4,7 +4,7 @@ import axios from "axios";
 
 export class Question extends React.Component {
     constructor(props) {
-        super()
+        super(props)
 
         let clicked = props.clicked ? true : false
         
@@ -31,12 +31,10 @@ export class Question extends React.Component {
                 div.push(circleEmpty)
             }       
         }
-        console.log(div)
         return div
     }
     HandleClick = (e) => {
         e.preventDefault()
-        console.log("Начал редактировать")
         this.setState(state => ({
             text: state.text,
             clicked: !state.clicked
@@ -45,7 +43,6 @@ export class Question extends React.Component {
 
     HandleChange(e) {
         e.preventDefault()
-        console.log("Редактирую")
         this.setState(state => ({
             text: e.target.value,
             clicked: state.clicked
@@ -54,7 +51,6 @@ export class Question extends React.Component {
 
     HandleSubmit(e) {
         e.preventDefault()
-        console.log("Сделал что-то другое")
         this.setState(state => ({
             text: state.text,
             clicked: false
@@ -62,7 +58,6 @@ export class Question extends React.Component {
     }
 
     updateQuestion(e) {
-        console.log("Обновляю", e)
         axios({
             method: "post",
             url: "/update_question/"+this.state.id,
@@ -71,27 +66,18 @@ export class Question extends React.Component {
             },
             data:{
                 text: this.state.text,
-                answer: "new",
+                answer: this.props.answer,
                 photo: NaN
             }
         })
-        .then(function (response) {
-            console.log(response);
-          })
+        // .then(function (response) {
+        //     console.log(response);
+        // })
     }
-    getAnswer(e) {
-        axios({
-            method: "get",
-            url: "/get_answer/"+this.state.id,
-            headers: {
-                Authorization: 'Bearer ' + this.props.token
-            }
-        })
-        .then((resp) => { console.log(resp.data)})
-    }
+
     render() {
         return(
-        <div className="one-question-container">
+        <div className="one-question-container" onClick={() => this.props.seeAnswer()}>
             {this.state.clicked 
                 ?
                 <div className="text-container" onClick={e => this.HandleClick(e)}>
@@ -110,27 +96,11 @@ export class Question extends React.Component {
             }
             {this.getCircle(this.state.level).map(type_ => {
                 return <div className={type_}/>
-            })
-
+                })
             }
-            {/* <For start={1} comparator={i => i<=5} next={i => i++}>{
-                (i) => {
-                    {i < this.level 
-                        ?
-                        <div className="circle-empty"/> 
-                        :
-                        <div className="circle"/>
-                    }
-                }
-            }</For> */}
-            {/* <div className="circle-empty"/>   
-            <div className="circle-empty"/>
-            <div className="circle-empty"/>
-            <div className="circle"/>
-            <div className="circle"/> */}
+            
             <button onClick={() => this.props.deleteItem()}>Удалить ({this.state.id})</button>
             <button onClick={e => this.updateQuestion(e)}>Обновить ({this.state.id})</button>
-            <button onClick={e => this.getAnswer(e)}>Показать ответ({this.state.id})</button>
         </div> 
         )}
 }

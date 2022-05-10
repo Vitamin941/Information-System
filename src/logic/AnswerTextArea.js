@@ -3,8 +3,8 @@ import React from "react";
 import '../css/AnswerTextArea.css'
 
 export class AnswerTextArea extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
 
         this.state = {
             drag: false
@@ -13,6 +13,7 @@ export class AnswerTextArea extends React.Component {
         this.onDragStartHandler = this.onDragStartHandler.bind(this)
         this.onDragLeaveHandler = this.onDragLeaveHandler.bind(this)
         this.onDropHandler = this.onDropHandler.bind(this)
+        this.updateAnswer = this.updateAnswer.bind(this)
     }
 
     onDragStartHandler(e) {
@@ -37,10 +38,14 @@ export class AnswerTextArea extends React.Component {
         console.log(files)
     }
 
+    updateAnswer(e){
+        this.props.setAnswer(e.target.value)
+    }
     render() {
         return(
             <div className='answer-container'>
-            <textarea placeholder="Введите текст ответа" className="answer-text-area"/>
+            <textarea placeholder="Введите текст ответа" className="answer-text-area" 
+            onChange={e => this.updateAnswer(e)} value={this.props.answer}/>
             {this.state.drag 
                     ?
                     <div className="photo-loader"

@@ -164,7 +164,7 @@ def delete_question(id):
 
 @app.route("/update_question/<id>", methods=["POST"])
 @jwt_required()
-def гupdate_question(id):
+def update_question(id):
     question = Question.query.get(id)
     question.text_question = request.json['text'] 
     question.text_answer = request.json['answer']
