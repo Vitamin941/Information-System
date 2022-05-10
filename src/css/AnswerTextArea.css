@@ -23,7 +23,8 @@
   .photo-loader {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    overflow-y: scroll;
+    max-height: 71vh;
     align-items: center;
     margin: 20px 0 0 0;
     width: 70%;
@@ -47,4 +48,19 @@
     font-size: 18px;
     line-height: 30px;
     color: rgba(0, 0, 0, 0.5);
+  }
+  .photo-answer{
+    width: 100%;
+  }
+
+  .photo-loader::-webkit-scrollbar {
+    width: auto;
+    height: 0%;
+    border-radius: 50px;
+  }
+  
+  .photo-loader::-webkit-scrollbar-thumb {
+    background: #3BAE39;
+    box-sizing: border-box;
+    border-radius: 50px;
   }

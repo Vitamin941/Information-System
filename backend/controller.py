@@ -5,7 +5,9 @@ from core import app
 from model import *
 from datetime import datetime, timedelta
 from sqlalchemy import and_
-
+from io import BytesIO
+# from PIL import Image
+import os, random
 from flask import jsonify
 from flask import request
 
@@ -168,12 +170,28 @@ def update_question(id):
     question = Question.query.get(id)
     question.text_question = request.json['text'] 
     question.text_answer = request.json['answer']
-    question.image = request.json['photo']
     db.session.commit()
     response = jsonify({
-        "status":"OK"
+        "status": "OK"
     })
     return response
+
+@app.route("/update_question_image/<id>", methods=["POST"])
+@jwt_required()
+def update_question_image(id):
+    
+    files = request.files
+    file = files.get('image')
+    hash = random.getrandbits(128)
+    ext = file.filename.split('.')[-1]
+    path = '%s.%s' % (hash, ext)
+    file.save(os.path.join(os.path.join(os.getcwd(), 'IMAGE'),path))
+    response = jsonify({
+        "status": 'ok'
+    })
+    return response
+
+
 
 @app.route("/get_answer/<id>", methods=["GET"])
 @jwt_required()

@@ -32,6 +32,7 @@ export class SuperList extends React.Component {
     activeAnswer(id){
         this.state.active = id
         this.setState({active: id})
+        this.seeAnswer(id)
     }
     seeAnswer(id){
         axios({
@@ -42,7 +43,8 @@ export class SuperList extends React.Component {
             }
         })
         .then((resp) => {
-            this.props.setAnswer(resp.data.answer)         
+            this.props.setAnswer(resp.data.answer)      
+            this.props.setPhoto(resp.data.photo)   
         })
         
     }
@@ -99,8 +101,8 @@ export class SuperList extends React.Component {
                 {this.props.questions.map(question => 
                     <Question key={question.id} text={question.text} level={question.level} id={question.id} 
                     token={this.props.token} deleteItem={() => this.deleteItem(question)}
-                    seeAnswer={() => this.seeAnswer(question.id)} answer={this.props.answer}
-                    active={this.state.active === question.id ? true : false} updateActive={() => this.activeAnswer(question.id)}/>
+                    answer={this.props.answer} photo={this.props.photo} active={this.state.active === question.id ? true : false} 
+                    updateActive={() => this.activeAnswer(question.id)}/>
                 )}
                 {this.state.generatedQuestion
                     ?

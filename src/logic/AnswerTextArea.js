@@ -31,11 +31,25 @@ export class AnswerTextArea extends React.Component {
             drag: false
         }));
     }
-
+   
     onDropHandler(e) {
         e.preventDefault()
-        let files = [...e.dataTransfer.files]
-        console.log(files)
+        let files = e.dataTransfer.files[0]
+        
+        console.log(e)
+        // let img = document.querySelector(".load-img")
+        // img.src = URL.createObjectURL(files)
+        // img.className = "photo-answer"
+
+        var form_data = new FormData();
+        
+        
+        console.log(form_data)
+        // // Добавляем в форму наш файл из поля:
+        form_data.append('image', files);
+        
+        this.props.setPhoto(form_data)
+        
     }
 
     updateAnswer(e){
@@ -46,6 +60,12 @@ export class AnswerTextArea extends React.Component {
             <div className='answer-container'>
             <textarea placeholder="Введите текст ответа" className="answer-text-area" 
             onChange={e => this.updateAnswer(e)} value={this.props.answer}/>
+            {this.props.photo 
+            ?
+            <img src={URL.createObjectURL(this.props.photo.get("image"))} alt="Картиночка загрузки" className="load-img"/>
+            :
+            <></>
+            }
             {this.state.drag 
                     ?
                     <div className="photo-loader"

@@ -58,6 +58,8 @@ export class Question extends React.Component {
     }
 
     updateQuestion(e) {
+        console.log(this.props.photo.get('image'))
+        
         axios({
             method: "post",
             url: "/update_question/"+this.state.id,
@@ -67,17 +69,27 @@ export class Question extends React.Component {
             data:{
                 text: this.state.text,
                 answer: this.props.answer,
-                photo: NaN
             }
         })
-        // .then(function (response) {
-        //     console.log(response);
-        // })
+        .then(function (response) {
+            console.log("Прилетело с сервера:")
+            console.log(response.data.status);
+        })
+        fetch("/update_question_image/"+this.state.id, {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + this.props.token,
+            },
+            body: this.props.photo
+        }).then(response => response.json()
+        ).then(json => {
+            console.log(json)
+        });
     }
 
     render() {
         return(
-        <div className="one-question-container" onClick={() => {this.props.seeAnswer(); this.props.updateActive()}}>
+        <div className="one-question-container" onClick={() => this.props.updateActive()}>
             {this.state.clicked 
                 ?
                 <div className="text-container" onClick={e => this.HandleClick(e)}>
