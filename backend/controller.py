@@ -8,7 +8,9 @@ from sqlalchemy import and_
 from io import BytesIO
 # from PIL import Image
 import os, random
-from flask import jsonify
+from flask import jsonify, send_file
+
+from flask import send_from_directory, url_for
 from flask import request
 
 from flask_jwt_extended import create_access_token
@@ -179,29 +181,50 @@ def update_question(id):
 @app.route("/update_question_image/<id>", methods=["POST"])
 @jwt_required()
 def update_question_image(id):
+    uploaded_file = request.files['image']
     
-    files = request.files
-    file = files.get('image')
+    # target=os.path.join(os.getcwd(),'IMAGE')
+    # if not os.path.isdir(target):
+    #     os.mkdir(target)
+    question = Question.query.get(id)
+    # file = request.files.get('image')
     hash = random.getrandbits(128)
-    ext = file.filename.split('.')[-1]
+    ext = uploaded_file.filename.split('.')[-1]
     path = '%s.%s' % (hash, ext)
-    file.save(os.path.join(os.path.join(os.getcwd(), 'IMAGE'),path))
+    question.image =  path
+    db.session.commit()
+    # file.save(target,path)
+    uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], path))
+    
     response = jsonify({
         "status": 'ok'
     })
     return response
 
-
-
 @app.route("/get_answer/<id>", methods=["GET"])
 @jwt_required()
 def get_answer(id):
+    files = os.listdir(app.config['UPLOAD_PATH'])
     question = Question.query.get(id)
+    # target=os.path.join(os.getcwd(),'IMAGE')
+    # file = os.path.join(target,question.image)
+    # safe_path = send_file(file, as_attachment=True)
+    # r = send_from_directory(app.config['UPLOAD_PATH'], question.image)
+    # s = print(url_for('upload',  question.image))
     response = jsonify({
         "answer": question.text_answer,
         "photo": question.image
     })
     return response
+
+@app.route("/get_answer_image/<id>", methods=["GET"])
+@jwt_required()
+def get_answer_image(id):
+    question = Question.query.get(id)
+    target=os.path.join(os.getcwd(),'IMAGE')
+    file = os.path.join(target,question.image)
+    safe_path = send_file(file, as_attachment=True)
+    return safe_path
 
 TIMES_LEVEL = [
     timedelta(seconds=30),
@@ -211,6 +234,10 @@ TIMES_LEVEL = [
     timedelta(weeks=1),
     timedelta(weeks=3),
 ]
+
+@app.route("/uploads/<path:name>")
+def download_file(name):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], name, as_attachment=True)
 
 @app.route("/get_repit_quastion", methods=["GET"])
 @jwt_required()

@@ -45,7 +45,19 @@ export class SuperList extends React.Component {
         .then((resp) => {
             this.props.setAnswer(resp.data.answer)      
             this.props.setPhoto(resp.data.photo)   
+            console.log(this.props.photo)
         })
+        // axios({
+        //     method: "get",
+        //     url: "/get_answer_image/"+id,
+        //     headers: {
+        //         Authorization: 'Bearer ' + this.props.token
+        //     }
+        // })
+        // .then((resp) => {  
+        //     // imageURL: `http://localhost:8000/${body.file}`
+        //     this.props.setPhoto(resp.file)
+        // })
         
     }
     onCreate(e) {

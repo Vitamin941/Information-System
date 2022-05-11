@@ -62,7 +62,10 @@ export class AnswerTextArea extends React.Component {
             onChange={e => this.updateAnswer(e)} value={this.props.answer}/>
             {this.props.photo 
             ?
-            <img src={URL.createObjectURL(this.props.photo.get("image"))} alt="Картиночка загрузки" className="load-img"/>
+            <>
+            {/* <p>{this.props.photo}</p> */}
+            <img src={"http://localhost:5000/uploads/" + this.props.photo} alt="Картиночка загрузки" className="load-img"/>
+            </>
             :
             <></>
             }

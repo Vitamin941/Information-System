@@ -30,7 +30,7 @@ class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text_question = db.Column(db.Text)
     text_answer = db.Column(db.Text)
-    image = db.Column(db.LargeBinary)
+    image = db.Column(db.Text)
 
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'))
     subject = db.relationship('Subject',

@@ -27,4 +27,4 @@ yarn-error.log*
 # Python file
 __pycache__
 
-/IMAGE
+IMAGE
