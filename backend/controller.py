@@ -94,8 +94,16 @@ def protected():
 @app.route("/get_subject", methods=["GET"])
 @jwt_required()
 def subject():
-    user = current_user
-    subjects = [{"subject_name": sbjct.name, "subject_id":sbjct.id} for sbjct in user.subjects.all()]
+    user_id = current_user.id
+    # subjects = [{"subject_name": sbjct.name, "subject_id":sbjct.id} for sbjct in user.subjects.all()]
+    subjects_repit = db.engine.execute(f"""
+        select s.id, s.name  from repetition as r  
+        join question as q on q.id = r.question_id
+        join subject as s on s.id = q.subject_id
+        where r.user_id = {user_id} union 
+        select s2.id, s2.name from subject as s2 where s2.user_id = {user_id}
+    """).all()
+    subjects = [{"subject_name": sbjct[1], "subject_id":sbjct[0]}for sbjct in subjects_repit]
     response = jsonify({
         "subject": subjects,
     })
@@ -297,3 +305,22 @@ def get_user_id(name):
             "user_name": user.full_name
         })
     return response
+
+
+# ОТПРАВКА ВОПРОСОВ ==========================================
+@app.route("/send_subject/<subject_id>/user/<user_id>", methods=["POST"])
+@jwt_required()
+def send_subject_user(subject_id, user_id):
+    # user_name = current_user.name
+    msg_subject = Subject.query.get(subject_id)
+    # name_subject = f'{msg_subject.name} ({user_name})'
+    user = User.query.get(user_id)
+    # subject_new = Subject(name_subject, user)
+    # db.session.add(subject_new)
+    for qu in msg_subject.questions:
+        rep = Repetition(qu, user, 0)
+        db.session.add(rep)
+    db.session.commit()
+    return jsonify({
+        "status": "OK",
+    })
