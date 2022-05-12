@@ -43,7 +43,7 @@ class Question(db.Model):
         self.image = image
 
     def __repr__(self):
-        return '<Question %r>' % self.name_question
+        return '<Question %r>' % self.text_question
 
 class Repetition(db.Model):
     id = db.Column(db.Integer, primary_key=True)

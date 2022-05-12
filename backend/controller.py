@@ -167,7 +167,7 @@ def delete_question(id):
     question = Question.query.get(id)
     rep = Repetition.query.filter(Repetition.question_id == id and Repetition.user_id == current_user.id)[0]
     db.session.delete(rep)
-    db.session.delete(question)
+    # db.session.delete(question) #НАДО ЧТО-ТО ПРИДУМАТЬ С УДАЛЕНИЕМ!!!
     db.session.commit()
     response = jsonify({
         "status":"OK"
@@ -312,15 +312,15 @@ def get_user_id(name):
 @jwt_required()
 def send_subject_user(subject_id, user_id):
     # user_name = current_user.name
-    msg_subject = Subject.query.get(subject_id)
+    msg_subject = Subject.query.get(subject_id).questions
     # name_subject = f'{msg_subject.name} ({user_name})'
     user = User.query.get(user_id)
     # subject_new = Subject(name_subject, user)
     # db.session.add(subject_new)
-    for qu in msg_subject.questions:
+    for qu in msg_subject:
         rep = Repetition(qu, user, 0)
         db.session.add(rep)
     db.session.commit()
     return jsonify({
-        "status": "OK",
+        "status": msg_subject,
     })

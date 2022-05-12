@@ -18,6 +18,7 @@ export class Header extends React.Component {
     this.openSubjects = this.openSubjects.bind(this)
     this.createSubject = this.createSubject.bind(this)
     this.getUserId = this.getUserId.bind(this)
+    this.sendSubject = this.sendSubject.bind(this)
   }
 
   componentDidMount() {
@@ -169,6 +170,20 @@ export class Header extends React.Component {
     })
       
   }
+
+  sendSubject() {
+    console.log(this.state.msgSubjectId)
+    console.log(this.state.msgUserId)
+    axios({
+      method: "POST",
+      url: "/send_subject/"+this.state.msgSubjectId.toString()+"/user/"+this.state.msgUserId.toString(),
+      headers: {
+          Authorization: 'Bearer ' + this.props.token
+      }
+    }).then(resp => {
+      console.log(resp.data)
+    })
+  }
   render() { {console.log()}
     return(
         <header className="App-header">
@@ -228,7 +243,7 @@ export class Header extends React.Component {
                           </div>
                         </div>
                         {this.state.msgUserId !== -1 && this.state.msgSubjectId !== -1?
-                          <a className="button-email-user-window">Отправить</a> 
+                          <a className="button-email-user-window" onClick={this.sendSubject}>Отправить</a> 
                         :
                         <></>
                         }
