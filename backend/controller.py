@@ -125,19 +125,18 @@ def add_subject():
 @app.route("/get_question_subject/<id>", methods=["GET"])
 @jwt_required()
 def question_subject(id):
-    subject = Subject.query.get(id) #НАСТРОИТЬ ПОИСК ПО КАТЕГОРИЯМ
     user_id = current_user.id
-    rep = db.session.query(Repetition).filter(Repetition.user_id == user_id)
-    questions = []
-    for qu in rep:
-        if (Question.query.get(qu.question_id).subject == subject):
-            questions.append(
-                { 
-                    "text":Question.query.get(qu.question_id).text_question,
-                    "level": qu.level,
-                    "id":qu.question_id
-                }
-            )
+    questions_ = db.engine.execute(f"""
+        select q.text_question, r.level, q.id from repetition as r 
+        join question as q on q.id = r.question_id 
+        where q.subject_id = {id} and r.user_id = {user_id}
+    """).all()
+    questions = [{ 
+                    "text":qu[0],
+                    "level": qu[1],
+                    "id":qu[2]
+                } for qu in questions_]
+            
     response = jsonify({
         "questions": questions
     })
@@ -167,7 +166,7 @@ def delete_question(id):
     question = Question.query.get(id)
     rep = Repetition.query.filter(Repetition.question_id == id and Repetition.user_id == current_user.id)[0]
     db.session.delete(rep)
-    # db.session.delete(question) #НАДО ЧТО-ТО ПРИДУМАТЬ С УДАЛЕНИЕМ!!!
+    # db.session.delete(question) #НАДО ЧТО-ТО ПРИДУМАТЬ С
     db.session.commit()
     response = jsonify({
         "status":"OK"
