@@ -58,8 +58,6 @@ export class Question extends React.Component {
     }
 
     updateQuestion(e) {
-        console.log(this.props.photo.get('image'))
-        
         axios({
             method: "post",
             url: "/update_question/"+this.state.id,
@@ -75,16 +73,20 @@ export class Question extends React.Component {
             console.log("Прилетело с сервера:")
             console.log(response.data.status);
         })
-        fetch("/update_question_image/"+this.state.id, {
-            method: 'POST',
-            headers: {
-                Authorization: 'Bearer ' + this.props.token,
-            },
-            body: this.props.photo
-        }).then(response => response.json()
-        ).then(json => {
-            console.log(json)
-        });
+        if (!this.props.photo && this.props.photo!=="" &&this.props.photo!== undefined){
+            fetch("/update_question_image/"+this.state.id, {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + this.props.token,
+                },
+                body: this.props.photo
+            }).then(response => response.json()
+            ).then(json => {
+                console.log(json)
+            });
+            this.props.photo = undefined
+        }
+        
     }
 
     render() {

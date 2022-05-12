@@ -35,21 +35,12 @@ export class AnswerTextArea extends React.Component {
     onDropHandler(e) {
         e.preventDefault()
         let files = e.dataTransfer.files[0]
-        
-        console.log(e)
-        // let img = document.querySelector(".load-img")
-        // img.src = URL.createObjectURL(files)
-        // img.className = "photo-answer"
-
         var form_data = new FormData();
-        
-        
         console.log(form_data)
-        // // Добавляем в форму наш файл из поля:
         form_data.append('image', files);
-        
         this.props.setPhoto(form_data)
-        
+        this.onDragLeaveHandler(e)
+        console.log(files)
     }
 
     updateAnswer(e){
@@ -60,15 +51,6 @@ export class AnswerTextArea extends React.Component {
             <div className='answer-container'>
             <textarea placeholder="Введите текст ответа" className="answer-text-area" 
             onChange={e => this.updateAnswer(e)} value={this.props.answer}/>
-            {this.props.photo 
-            ?
-            <>
-            {/* <p>{this.props.photo}</p> */}
-            <img src={"http://localhost:5000/uploads/" + this.props.photo} alt="Картиночка загрузки" className="load-img"/>
-            </>
-            :
-            <></>
-            }
             {this.state.drag 
                     ?
                     <div className="photo-loader"
@@ -84,8 +66,17 @@ export class AnswerTextArea extends React.Component {
                         onDragStart={e => this.onDragStartHandler(e)}
                         onDragLeave={e => this.onDragLeaveHandler(e)}
                         onDragOver={e => this.onDragStartHandler(e)}>
-                        <img src={require('../their_image/load_img.png')} alt="Картиночка загрузки" className="load-img"/> 
-                         <p className="load-text">Кликните, чтоб загрузить <br/>фото или перетащите <br/>изображение прямо сюда</p>
+                        {this.props.photo 
+                        ?
+                        <>
+                            <img src={"http://localhost:5000/uploads/" + this.props.photo} alt="Картиночка загрузки" className="photo-answer"/>
+                        </>
+                        :
+                        <>
+                            <img src={require('../their_image/load_img.png')} alt="Картиночка загрузки" className="load-img"/> 
+                            <p className="load-text">Кликните, чтоб загрузить <br/>фото или перетащите <br/>изображение прямо сюда</p>
+                        </>
+                        }
                     </div>
                     }
         </div>

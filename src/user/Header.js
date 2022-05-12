@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import '../css/User-window.css'
-import { toHaveStyle } from "@testing-library/jest-dom/dist/matchers";
 
 export class Header extends React.Component {
   constructor(props){
@@ -19,6 +18,7 @@ export class Header extends React.Component {
   componentDidMount() {
     this.get_me()
   }
+
   get_me(){
     axios({
         method: "GET",
@@ -34,8 +34,8 @@ export class Header extends React.Component {
       console.log(this.state.me)
     })
     .catch(error => console.log(error))
-}  
-  // Запрос на выход
+  }  
+  
   logMeOut() {
 
     axios({
@@ -51,8 +51,9 @@ export class Header extends React.Component {
         console.log(error.response.headers)
         }
     })
-    window.open("/")
-    }
+    window.location.href = '/'
+
+  }
     
   OpenWindow(e) {
     var classNameNow = e.target.parentElement.children[0].className;
@@ -64,7 +65,6 @@ export class Header extends React.Component {
     }
   } 
 
-  /* Когда пользователь нажимает на кнопку, переключаться раскрывает содержимое */
   openSubjects(e) {
     axios({
       method: "GET",
@@ -129,16 +129,21 @@ export class Header extends React.Component {
       }
       })
       .then(resp => {
-        // console.log(this.props.id_subject)
-        // console.log(resp.data.questions); 
         this.props.setQuestions(resp.data.questions)})
       .catch(error => console.log(error))
   }
-  render() { return(
+  render() { {console.log()}
+    return(
         <header className="App-header">
             <nav className="nav-bar">
+            {window.location.href.indexOf('/repetition') === -1 
+              ?
                 <div className="block-subject" data-id_subject={this.props.id_subject}>
-                  <a href="#" className="link link-subject" onMouseOver={this.openSubjects}>Категории</a>
+                  <a href="#" className="link link-subject"
+                  
+                     onMouseOver={this.openSubjects}
+                  
+                  >Категории</a>
                   <div className="subjects-list">
                     {this.state.subject.map(subject => 
                       <a key={subject.subject_id} href="#" className="el-subjects-list" 
@@ -151,6 +156,9 @@ export class Header extends React.Component {
                     </div>
                   </div>
                 </div>
+              :
+                <a href="#" className="link link-subject">Категории</a>
+            }
                 <a href="/repetition" className="link">Повторение</a>
                 <a href="/" className="link">Главная</a>
                 <div className="block-user-window">            
@@ -176,7 +184,7 @@ export class Header extends React.Component {
                         </form>
                         <div className="button-user-window">
                             <a className="button-email-user-Settings"></a> 
-                            <form><button className="button-email-user-Exit" onClick={this.logMeOut}></button></form>
+                            <a className="button-email-user-Exit" onClick={this.logMeOut}></a>
                         </div>
                     </div>
                     <div className="user-window-link" onClick={this.OpenWindow}></div>

@@ -182,19 +182,14 @@ def update_question(id):
 @jwt_required()
 def update_question_image(id):
     uploaded_file = request.files['image']
-    
-    # target=os.path.join(os.getcwd(),'IMAGE')
-    # if not os.path.isdir(target):
-    #     os.mkdir(target)
     question = Question.query.get(id)
-    # file = request.files.get('image')
     hash = random.getrandbits(128)
     ext = uploaded_file.filename.split('.')[-1]
     path = '%s.%s' % (hash, ext)
-    question.image =  path
-    db.session.commit()
-    # file.save(target,path)
-    uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], path))
+    if path != question.image:
+        question.image =  path
+        db.session.commit()
+        uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], path))
     
     response = jsonify({
         "status": 'ok'
@@ -204,13 +199,7 @@ def update_question_image(id):
 @app.route("/get_answer/<id>", methods=["GET"])
 @jwt_required()
 def get_answer(id):
-    files = os.listdir(app.config['UPLOAD_PATH'])
     question = Question.query.get(id)
-    # target=os.path.join(os.getcwd(),'IMAGE')
-    # file = os.path.join(target,question.image)
-    # safe_path = send_file(file, as_attachment=True)
-    # r = send_from_directory(app.config['UPLOAD_PATH'], question.image)
-    # s = print(url_for('upload',  question.image))
     response = jsonify({
         "answer": question.text_answer,
         "photo": question.image
@@ -288,5 +277,16 @@ def wrong_answered(id):
     db.session.commit()
     response = jsonify({
         "status":"OK"
+    })
+    return response
+
+
+# ПОИСК ПОЛЬЗОВАТЕЛЕЙ =======================================
+@app.route("/get_user_id/<name>", methods=["GET"])
+@jwt_required()
+def subject(name):
+    user = User.query.filter_by(username=name).one_or_none()
+    response = jsonify({
+        "subject": user.id,
     })
     return response

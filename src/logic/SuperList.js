@@ -34,6 +34,7 @@ export class SuperList extends React.Component {
         this.setState({active: id})
         this.seeAnswer(id)
     }
+
     seeAnswer(id){
         axios({
             method: "get",
@@ -44,22 +45,10 @@ export class SuperList extends React.Component {
         })
         .then((resp) => {
             this.props.setAnswer(resp.data.answer)      
-            this.props.setPhoto(resp.data.photo)   
-            console.log(this.props.photo)
+            this.props.setPhoto(resp.data.photo)
         })
-        // axios({
-        //     method: "get",
-        //     url: "/get_answer_image/"+id,
-        //     headers: {
-        //         Authorization: 'Bearer ' + this.props.token
-        //     }
-        // })
-        // .then((resp) => {  
-        //     // imageURL: `http://localhost:8000/${body.file}`
-        //     this.props.setPhoto(resp.file)
-        // })
-        
     }
+
     onCreate(e) {
         e.preventDefault();
         this.setState(state => ({
@@ -104,34 +93,42 @@ export class SuperList extends React.Component {
             question.id = response.data.id;
           })
     }
-    render() { 
+
+    render() {
         return (
           <div className="questions-container">
                 <div className="text-one-heading">
-                    <h2 className="subject-heading" data-id_subject={this.props.id_subject}></h2>
+                        <h2 className="subject-heading" data-id_subject={this.props.id_subject}></h2>
                 </div>
-                {this.props.questions.map(question => 
-                    <Question key={question.id} text={question.text} level={question.level} id={question.id} 
-                    token={this.props.token} deleteItem={() => this.deleteItem(question)}
-                    answer={this.props.answer} photo={this.props.photo} active={this.state.active === question.id ? true : false} 
-                    updateActive={() => this.activeAnswer(question.id)}/>
-                )}
-                {this.state.generatedQuestion
-                    ?
-                    <div className="input-container">
-                        <input className="inputer" placeholder="Введите текст"/>
-                    </div>
-                    :
-                    <></>
-                }
-                <div className="buttons-container">
-                    <button className="question-adder" onClick={this.onCreate} />
-                    {this.state.generatedQuestion?
-                        <button className="question-submiter" onClick={this.onSubmit} />
+                {this.props.id_subject !== -1
+                ?<>
+                    
+                    {this.props.questions.map(question => 
+                        <Question key={question.id} text={question.text} level={question.level} id={question.id} 
+                        token={this.props.token} deleteItem={() => this.deleteItem(question)}
+                        answer={this.props.answer} photo={this.props.photo} active={this.state.active === question.id ? true : false} 
+                        updateActive={() => this.activeAnswer(question.id)}/>
+                    )}
+                    {this.state.generatedQuestion
+                        ?
+                        <div className="input-container">
+                            <input className="inputer" placeholder="Введите текст"/>
+                        </div>
                         :
                         <></>
                     }
-                </div>
+                    <div className="buttons-container">
+                        <button className="question-adder" onClick={this.onCreate} />
+                        {this.state.generatedQuestion?
+                            <button className="question-submiter" onClick={this.onSubmit} />
+                            :
+                            <></>
+                        }
+                    </div>
+                </>:<>
+                    <p>Выберите категорию</p>
+                </>
+            }
         </div>
         );
       }

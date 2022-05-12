@@ -1,6 +1,4 @@
-import { useState, useEffect} from 'react'
 import React from "react";
-import {Question} from "./Question";
 import axios from "axios";
 import '../css/RepetitionBlock.css';
 
@@ -70,12 +68,15 @@ export class RepetitionBlock extends React.Component {
                     repLevel: resp.data.question[0].level,
                     repIdRep: resp.data.question[0].rep_id
                 })
+                this.props.setIdQuestion(resp.data.question[0].id)
+                this.props.setAnswerShow(false)
             }
             this.setState({
                 rep_: info
             })
         })
         .catch(error => console.log(error))
+        
     }
     render() { 
         return(
