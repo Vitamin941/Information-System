@@ -284,9 +284,16 @@ def wrong_answered(id):
 # ПОИСК ПОЛЬЗОВАТЕЛЕЙ =======================================
 @app.route("/get_user_id/<name>", methods=["GET"])
 @jwt_required()
-def subject(name):
+def get_user_id(name):
     user = User.query.filter_by(username=name).one_or_none()
-    response = jsonify({
-        "subject": user.id,
-    })
+    if not user:
+        response = jsonify({
+            "exis": False 
+        })
+    else:
+        response = jsonify({
+            "exis": True, 
+            "user_id": user.id,
+            "user_name": user.full_name
+        })
     return response

@@ -7,12 +7,17 @@ export class Header extends React.Component {
     super(props);
     this.state = {
       subject: [],
-      me: ""
+      me: "",
+      msgUserId: -1,
+      msgUderName: "",
+      msgSubjectId: -1,
+      msgSubjectName: ""
     }
     this.logMeOut = this.logMeOut.bind(this)
     this.get_me = this.get_me.bind(this)
     this.openSubjects = this.openSubjects.bind(this)
     this.createSubject = this.createSubject.bind(this)
+    this.getUserId = this.getUserId.bind(this)
   }
 
   componentDidMount() {
@@ -65,7 +70,7 @@ export class Header extends React.Component {
     }
   } 
 
-  openSubjects(e) {
+  openSubjects() {
     axios({
       method: "GET",
       url:"/get_subject",
@@ -91,6 +96,11 @@ export class Header extends React.Component {
     this.props.setSubject(subject_id)
     this.getQuestionSubjects(subject_id)
   }  
+
+  selectedSubject(subject_id, subject_name) {
+    document.querySelector(".select-subject").innerText = subject_name
+    this.setState({msgSubjectId:subject_id})
+  }
 
   createSubject() {
     let name_subject = document.querySelector(".create-subject-input").value
@@ -132,6 +142,33 @@ export class Header extends React.Component {
         this.props.setQuestions(resp.data.questions)})
       .catch(error => console.log(error))
   }
+
+  getUserId (){
+    let user_name = document.querySelector(".get-user-window").value
+    console.log(user_name)
+    axios({
+      method: "GET",
+      url:"/get_user_id/" + user_name,
+      headers: {
+          Authorization: 'Bearer ' + this.props.token
+      }
+    }).then(resp => {
+        console.log(resp)
+        if (resp.data.exis){
+          this.setState({
+            msgUserId: resp.data.user_id,
+            msgUderName: resp.data.user_name
+          })
+        } else {
+          this.setState({
+            msgUserId: -1,
+            msgUderName: ""
+          })
+        }
+        
+    })
+      
+  }
   render() { {console.log()}
     return(
         <header className="App-header">
@@ -139,11 +176,7 @@ export class Header extends React.Component {
             {window.location.href.indexOf('/repetition') === -1 
               ?
                 <div className="block-subject" data-id_subject={this.props.id_subject}>
-                  <a href="#" className="link link-subject"
-                  
-                     onMouseOver={this.openSubjects}
-                  
-                  >Категории</a>
+                  <a href="#" className="link link-subject" onMouseOver={this.openSubjects}>Категории</a>
                   <div className="subjects-list">
                     {this.state.subject.map(subject => 
                       <a key={subject.subject_id} href="#" className="el-subjects-list" 
@@ -161,27 +194,44 @@ export class Header extends React.Component {
             }
                 <a href="/repetition" className="link">Повторение</a>
                 <a href="/" className="link">Главная</a>
+
+
+
+
+
                 <div className="block-user-window">            
                     <div className="user-window-hidden">
                         <h1 className="name-user" >{this.state.me}</h1>
                         <form  className="get">
                             <input  
                             type="text" className="get-user-window"
-                            placeholder="Поиск"/>
-                            <button type="submit" className="button-get-user-window"></button>
+                            placeholder="Поиск" />
+                            <a type="submit" className="button-get-user-window" onClick={this.getUserId}/>
                         </form>
-                        <div className="text-user">
-                            <ul>
-                              <li>Первый пункт</li>
-                              <li>Второй пункт</li>
-                              <li>Третий пункт</li>
-                            </ul>
+                        {this.state.msgUserId !== -1?
+                          <p>Выбран {this.state.msgUderName}</p>
+                        :
+                          <p>Никто не выбран</p>
+                        }
+                        <div className="block-subject" data-id_subject={this.props.id_subject}>
+                          <a href="#" className="select-subject" onMouseOver={this.openSubjects}>Выбор категории</a>
+                          <div className="subjects-list">
+                            {this.state.subject.map(subject => 
+                              <a key={subject.subject_id} href="#" className="el-subjects-list" 
+                              onClick={() => this.selectedSubject(subject.subject_id, subject.subject_name)}>
+                              {subject.subject_name}</a>
+                            )}
+                            <div className="block-create-subject">
+                              <input className="create-subject-input" type="text" placeholder="Новая категория"></input>
+                              <a className="create-subject" onClick={this.createSubject}></a>
+                            </div>
+                          </div>
                         </div>
-                        <textarea className="email-user-window">
-                        </textarea >
-                        <form>
-                            <button className="button-email-user-window">Отправить</button> 
-                        </form>
+                        {this.state.msgUserId !== -1 && this.state.msgSubjectId !== -1?
+                          <a className="button-email-user-window">Отправить</a> 
+                        :
+                        <></>
+                        }
                         <div className="button-user-window">
                             <a className="button-email-user-Settings"></a> 
                             <a className="button-email-user-Exit" onClick={this.logMeOut}></a>
@@ -189,6 +239,9 @@ export class Header extends React.Component {
                     </div>
                     <div className="user-window-link" onClick={this.OpenWindow}></div>
               </div>
+
+
+
             </nav>
         </header>
     )}
