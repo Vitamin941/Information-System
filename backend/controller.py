@@ -122,6 +122,29 @@ def add_subject():
         "id":subject_new.id
     })
 
+@app.route("/delete_subject/<id>", methods=["POST"])
+@jwt_required()
+def delete_subject(id):
+    user = current_user
+    db.engine.execute(f"""
+        delete from repetition where id in (select r.id from repetition as r 
+        join question as q on q.id = r.question_id 
+        where q.subject_id = {id} and r.user_id = {user.id})
+    """)
+    subject = Subject.query.get(id)
+    if subject.user == user:
+        db.engine.execute(f"""
+        delete from repetition where id in (select r.id from repetition as r 
+        join question as q on q.id = r.question_id 
+        where q.subject_id = {id})
+    """)
+        db.session.delete(subject)
+
+    db.session.commit()
+    return jsonify({
+        "status": "OK",
+    })
+
 @app.route("/get_question_subject/<id>", methods=["GET"])
 @jwt_required()
 def question_subject(id):
@@ -243,14 +266,15 @@ def get_repit_quastion():
     rep_sort = rep.order_by(Repetition.time_repetition.asc()).limit(1).all()
     if len(rep_sort) == 0:
         status = "There's nothing to repeat"
+        question = []
     else:
         status = "OK"
-    question = [{
-        "text":Question.query.get(qu.question_id).text_question,
-        "level": qu.level,
-        "id":qu.question_id,
-        "rep_id":qu.id
-    } for qu in rep_sort]
+        question = [{
+            "text":Question.query.get(qu.question_id).text_question,
+            "level": qu.level,
+            "id":qu.question_id,
+            "rep_id":qu.id
+        } for qu in rep_sort]
     response = jsonify({
         "question": question,
         "status": status

@@ -15,14 +15,14 @@ function App() {
     
     return (
           <BrowserRouter> 
-              {!token && token!=="" &&token!== undefined?  
+              {token==="" || token=== undefined?  
                 <Routes>
-                  <Route exact path="/" element={<Login setToken={setToken} />}></Route>
+                  <Route exact path="/" element={<Login setToken={setToken} token={token}/>}></Route>
                   <Route exact path="/signup" element={<SignUp />}></Route>
                 </Routes>
               :(
                 <>
-                  <Header removeToken={removeToken} token={token} 
+                  <Header removeToken={removeToken} token={token} setToken={setToken}
                   id_subject={id_subject} setSubject={setSubject}
                   quastions={questions} setQuestions={setQuestions}/>
                   <Routes>

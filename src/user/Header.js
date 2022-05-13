@@ -8,6 +8,7 @@ export class Header extends React.Component {
     this.state = {
       subject: [],
       me: "",
+      login: "",
       msgUserId: -1,
       msgUderName: "",
       msgSubjectId: -1,
@@ -17,6 +18,7 @@ export class Header extends React.Component {
     this.get_me = this.get_me.bind(this)
     this.openSubjects = this.openSubjects.bind(this)
     this.createSubject = this.createSubject.bind(this)
+    this.deleteSubject = this.deleteSubject.bind(this)
     this.getUserId = this.getUserId.bind(this)
     this.sendSubject = this.sendSubject.bind(this)
   }
@@ -34,22 +36,22 @@ export class Header extends React.Component {
         }
     })
     .then((resp) => {
-      console.log(this.state.me)
       this.state.me = resp.data.full_name
+      this.state.login = resp.data.username
       this.setState({me: this.state.me})
-      console.log(this.state.me)
+      this.setState({login: this.state.login})
     })
     .catch(error => console.log(error))
   }  
   
   logMeOut() {
-
     axios({
       method: "POST",
       url:"/logout",
     })
     .then(() => {
        this.props.removeToken()
+       this.props.setToken("")
     }).catch((error) => {
       if (error.response) {
         console.log(error.response)
@@ -57,7 +59,7 @@ export class Header extends React.Component {
         console.log(error.response.headers)
         }
     })
-    window.location.href = '/'
+    // window.location.href = '/'
 
   }
     
@@ -130,7 +132,18 @@ export class Header extends React.Component {
       }
     })
   }
-
+  deleteSubject(id){
+    console.log("Удалил")
+    axios({
+      method: "POST",
+      url: "/delete_subject/" + id,
+      headers: {
+          Authorization: 'Bearer ' + this.props.token
+      },
+    }).then(
+      this.setState({subject: this.state.subject.filter(sbj => sbj.subject_id !== id)})
+    )
+  }
   getQuestionSubjects(subject_id) {
     axios({
       method: "GET",
@@ -194,9 +207,12 @@ export class Header extends React.Component {
                   <a href="#" className="link link-subject" onMouseOver={this.openSubjects}>Категории</a>
                   <div className="subjects-list">
                     {this.state.subject.map(subject => 
+                    <div className="row-subject">
                       <a key={subject.subject_id} href="#" className="el-subjects-list" 
                       onClick={() => this.activeSubject(subject.subject_id, subject.subject_name)}>
                       {subject.subject_name}</a>
+                      <a className="delete-subject" onClick={() => this.deleteSubject(subject.subject_id)}></a>
+                    </div>
                     )}
                     <div className="block-create-subject">
                       <input className="create-subject-input" type="text" placeholder="Новая категория"></input>
@@ -217,10 +233,12 @@ export class Header extends React.Component {
                 <div className="block-user-window">            
                     <div className="user-window-hidden">
                         <h1 className="name-user" >{this.state.me}</h1>
+                        <p className="login-user">({this.state.login})</p>
+                        <h1 className="h1-send-subject">Отправка группы:</h1>
                         <form  className="get">
                             <input  
                             type="text" className="get-user-window"
-                            placeholder="Поиск" />
+                            placeholder="Поиск пользователя" />
                             <a type="submit" className="button-get-user-window" onClick={this.getUserId}/>
                         </form>
                         {this.state.msgUserId !== -1?
@@ -230,16 +248,12 @@ export class Header extends React.Component {
                         }
                         <div className="block-subject" data-id_subject={this.props.id_subject}>
                           <a href="#" className="select-subject" onMouseOver={this.openSubjects}>Выбор категории</a>
-                          <div className="subjects-list">
+                          <div className="send-subject-list">
                             {this.state.subject.map(subject => 
                               <a key={subject.subject_id} href="#" className="el-subjects-list" 
                               onClick={() => this.selectedSubject(subject.subject_id, subject.subject_name)}>
                               {subject.subject_name}</a>
                             )}
-                            <div className="block-create-subject">
-                              <input className="create-subject-input" type="text" placeholder="Новая категория"></input>
-                              <a className="create-subject" onClick={this.createSubject}></a>
-                            </div>
                           </div>
                         </div>
                         {this.state.msgUserId !== -1 && this.state.msgSubjectId !== -1?

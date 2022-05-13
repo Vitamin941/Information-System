@@ -10,7 +10,6 @@ function Login(props) {
     })
     // Функция клеит запрос, как она это делает мне сложно сказать
     function logMeIn(event) { 
-      console.log(loginForm.username, loginForm.password)
       axios({
         method: "POST",
         url:"/login",
@@ -20,8 +19,8 @@ function Login(props) {
          }
       })
       .then((response) => {
-        console.log(response.data.access_token)
         props.setToken(response.data.access_token)
+        props.tokin = response.data.access_token
       }).catch((error) => {
         if (error.response) {
           console.log(error.response)

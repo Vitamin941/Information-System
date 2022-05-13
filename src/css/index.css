@@ -6,6 +6,7 @@
 }
 
 #root {
+  font-family: 'Karit';
   margin: 0;
   height: 100vh;
   display: flex;
@@ -42,7 +43,7 @@ body {
 
 .link {
   width: 20vw;
-  height: 3vh;
+  min-height: 3vh;
   font-size: 2vh;
   display: block;
   border: 0.3vh solid #E6FFE5;
@@ -62,7 +63,7 @@ body {
   z-index: 2;
   background-color: #FFFFFF;
   position: absolute;
-  width: 20vw;
+  width: 30vw;
   border: 0.3vh solid #3BAE39;
   background: #FDFDFD;
   box-sizing: border-box;
@@ -71,7 +72,25 @@ body {
 .subjects-list{
   display: none;
 }
-
+.block-subject:hover .send-subject-list{
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  background-color: #FFFFFF;
+  position: absolute;
+  width: 100%;
+  border: 0.3vh solid #3BAE39;
+  background: #FDFDFD;
+  box-sizing: border-box;
+  box-shadow: 1px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.send-subject-list{
+  display: none;
+}
+.row-subject{
+  display: flex;
+  justify-content: space-between;
+}
 .el-subjects-list{
   font-size: 2vh;
   text-align: center;
@@ -92,15 +111,27 @@ body {
   text-align: center;
   color: #3BAE39;
   font-size: 2vh;
-  width: 100%;
+  width: 80%;
   height: 3vh;
 }
 
 .create-subject{
+  margin-left: 5px;
+  margin-right: 10px;
   display: block;
   width: 3vh;
   height: 3vh;
   background-image: url("../their_image/add_btn.svg");
+  background-size: cover;
+}
+
+.delete-subject{
+  margin-left: 5px;
+  margin-right: 10px;
+  display: block;
+  width: 3vh;
+  height: 3vh;
+  background-image: url("../their_image/delete_btn.png");
   background-size: cover;
 }
 /* ======================== */
