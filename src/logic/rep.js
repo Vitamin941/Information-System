@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { AnswerTextArea } from './logic/AnswerTextArea';
-import RepetitionBlock from './logic/RepetitionBlock';
+import { AnswerTextArea } from './AnswerTextArea';
+import RepetitionBlock from './RepetitionBlock';
 import axios from "axios";
 
 function Repetition(props) {

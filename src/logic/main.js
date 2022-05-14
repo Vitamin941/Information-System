@@ -1,5 +1,5 @@
-import { AnswerTextArea } from './logic/AnswerTextArea';
-import { SuperList } from './logic/SuperList';
+import { AnswerTextArea } from './AnswerTextArea';
+import { SuperList } from './SuperList';
 import { useState } from 'react'
 
 function Main(props) {

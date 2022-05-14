@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Login from './user/Login'
-import Header from './user/Header'
+import Header from './logic/Header'
 import useToken from './user/useToken' 
-import Main from './main'
+import Main from './logic/main'
 import SignUp from './user/SignUp'
-import Repetition from './rep'
+import Repetition from './logic/rep'
 
 function App() {
 
