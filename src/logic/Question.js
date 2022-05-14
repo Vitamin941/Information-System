@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-// import { For } from 'react-for';
+import "../css/Question.css"
 
 export class Question extends React.Component {
     constructor(props) {

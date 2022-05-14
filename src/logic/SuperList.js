@@ -1,7 +1,7 @@
 import React from "react";
 import {Question} from "./Question";
 import axios from "axios";
-
+import "../css/SuperList.css"
 
 export class SuperList extends React.Component {
 
