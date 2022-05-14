@@ -1,10 +1,10 @@
 .user-window-link {
-    background-image: url("../icon/window-user.svg");
+    background-image: url("../their_image/User-icon.png");
     position: absolute;
     top: 13px;
     right: 8px;
-    width: 102px;
-    height: 102px;
+    width: 107px;
+    height: 107px;
   }
   
 .user-window-hidden {

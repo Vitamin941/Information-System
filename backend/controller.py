@@ -1,16 +1,11 @@
-from calendar import month
-from statistics import quantiles
-from urllib import response
 from core import app
 from model import *
 from datetime import datetime, timedelta
 from sqlalchemy import and_
-from io import BytesIO
-# from PIL import Image
 import os, random
 from flask import jsonify, send_file
 
-from flask import send_from_directory, url_for
+from flask import send_from_directory
 from flask import request
 
 from flask_jwt_extended import create_access_token
@@ -19,38 +14,45 @@ from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import unset_jwt_cookies
 
-
+# ================ Настройка JWT ==============================================
 jwt = JWTManager(app)
 
-# Register a callback function that takes whatever object is passed in as the
-# identity when creating JWTs and converts it to a JSON serializable format.
+
+# Как получить id пользователя
 @jwt.user_identity_loader
 def user_identity_lookup(user):
     return user.id
 
 
-# Register a callback function that loads a user from your database whenever
-# a protected route is accessed. This should return any python object on a
-# successful lookup, or None if the lookup failed for any reason (for example
-# if the user has been deleted from the database).
+# Получение пользователя из БД
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     return User.query.filter_by(id=identity).one_or_none()
 
 
+# ============= Получение картинок ============================================
+@app.route("/uploads/<path:name>")
+def download_file(name):
+    return send_from_directory(
+        app.config['UPLOAD_FOLDER'], name, as_attachment=True
+        )
+
+
+# ============= Авторизация и регестрация =====================================
 @app.route("/login", methods=["POST"])
 def login():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
     user = User.query.filter_by(username=username).one_or_none()
-    if not user or not user.check_password(password):
+
+    # Проверка данных
+    if not user or not user.check_password(password): 
         return jsonify("Wrong username or password"), 401
     
-    
-    # Notice that we are passing in the actual sqlalchemy user object here
+    # Токен
     access_token = create_access_token(identity=user)
-    # return jsonify(access_token=access_token)
+
     response = {"access_token":access_token}
     return response
 
@@ -67,7 +69,7 @@ def signup():
         db.session.add(user)
         db.session.commit()
     else:
-        return jsonify("A user with this name exists"), 401
+        return jsonify("Пользователь с таким именем (ником) существует"), 401
 
     return jsonify("Вы удачно зарегестрировались!"), 200
 
@@ -79,10 +81,10 @@ def logout():
     return response
 
 
+# ================== Данные пользователя ======================================
 @app.route("/me", methods=["GET"])
 @jwt_required()
 def protected():
-    # We can now access our sqlalchemy User object via `current_user`.
     response = jsonify({
         "id":current_user.id,
         "full_name":current_user.full_name,
@@ -91,11 +93,11 @@ def protected():
     return response
 
 
+# ============ Категории вопросов =============================================
 @app.route("/get_subject", methods=["GET"])
 @jwt_required()
 def subject():
     user_id = current_user.id
-    # subjects = [{"subject_name": sbjct.name, "subject_id":sbjct.id} for sbjct in user.subjects.all()]
     subjects_repit = db.engine.execute(f"""
         select s.id, s.name  from repetition as r  
         join question as q on q.id = r.question_id
@@ -103,7 +105,10 @@ def subject():
         where r.user_id = {user_id} union 
         select s2.id, s2.name from subject as s2 where s2.user_id = {user_id}
     """).all()
-    subjects = [{"subject_name": sbjct[1], "subject_id":sbjct[0]}for sbjct in subjects_repit]
+    subjects = [
+        {"subject_name": sbjct[1], "subject_id":sbjct[0]}
+        for sbjct in subjects_repit
+        ]
     response = jsonify({
         "subject": subjects,
     })
@@ -145,6 +150,7 @@ def delete_subject(id):
         "status": "OK",
     })
 
+# ============== Вопросы и повторения =========================================
 @app.route("/get_question_subject/<id>", methods=["GET"])
 @jwt_required()
 def question_subject(id):
@@ -160,11 +166,9 @@ def question_subject(id):
                     "id":qu[2]
                 } for qu in questions_]
             
-    response = jsonify({
+    return jsonify({
         "questions": questions
     })
-    return response
-
 
 @app.route("/add_question", methods=["POST"])
 @jwt_required()
@@ -186,8 +190,11 @@ def add_question_subject():
 @app.route("/delete_question/<id>", methods=["POST"])
 @jwt_required()
 def delete_question(id):
-    question = Question.query.get(id)
-    rep = Repetition.query.filter(Repetition.question_id == id and Repetition.user_id == current_user.id)[0]
+    # question = Question.query.get(id)
+    rep = Repetition.query.filter(
+        Repetition.question_id == id and 
+        Repetition.user_id == current_user.id
+        )[0]
     db.session.delete(rep)
     # db.session.delete(question) #НАДО ЧТО-ТО ПРИДУМАТЬ С
     db.session.commit()
@@ -245,6 +252,8 @@ def get_answer_image(id):
     safe_path = send_file(file, as_attachment=True)
     return safe_path
 
+# ================= Повторение вопросов =======================================
+
 TIMES_LEVEL = [
     timedelta(seconds=30),
     timedelta(minutes=20),
@@ -254,18 +263,17 @@ TIMES_LEVEL = [
     timedelta(weeks=3),
 ]
 
-@app.route("/uploads/<path:name>")
-def download_file(name):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], name, as_attachment=True)
 
 @app.route("/get_repit_quastion", methods=["GET"])
 @jwt_required()
 def get_repit_quastion():
     user_id = current_user.id
-    rep = db.session.query(Repetition).filter(and_(Repetition.user_id == user_id, Repetition.time_repetition < datetime.now()))
+    rep = db.session.query(Repetition).filter(
+        and_(Repetition.user_id == user_id, Repetition.time_repetition < datetime.now())
+        )
     rep_sort = rep.order_by(Repetition.time_repetition.asc()).limit(1).all()
     if len(rep_sort) == 0:
-        status = "There's nothing to repeat"
+        status = "Повторять нечего"
         question = []
     else:
         status = "OK"
@@ -275,12 +283,11 @@ def get_repit_quastion():
             "id":qu.question_id,
             "rep_id":qu.id
         } for qu in rep_sort]
-    response = jsonify({
+    
+    return jsonify({
         "question": question,
         "status": status
     })
-    return response
-
 
 @app.route("/correctly_answered_quastion/<id>", methods=["POST"])
 @jwt_required()
@@ -312,7 +319,7 @@ def wrong_answered(id):
     return response
 
 
-# ПОИСК ПОЛЬЗОВАТЕЛЕЙ =======================================
+# ============= Отправка вопроса пользователю =================================
 @app.route("/get_user_id/<name>", methods=["GET"])
 @jwt_required()
 def get_user_id(name):
@@ -330,20 +337,17 @@ def get_user_id(name):
     return response
 
 
-# ОТПРАВКА ВОПРОСОВ ==========================================
 @app.route("/send_subject/<subject_id>/user/<user_id>", methods=["POST"])
 @jwt_required()
 def send_subject_user(subject_id, user_id):
-    # user_name = current_user.name
     msg_subject = Subject.query.get(subject_id).questions
-    # name_subject = f'{msg_subject.name} ({user_name})'
     user = User.query.get(user_id)
-    # subject_new = Subject(name_subject, user)
-    # db.session.add(subject_new)
+
     for qu in msg_subject:
         rep = Repetition(qu, user, 0)
         db.session.add(rep)
     db.session.commit()
+
     return jsonify({
-        "status": msg_subject,
+        "status": "OK",
     })
