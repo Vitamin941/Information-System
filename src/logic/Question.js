@@ -70,10 +70,9 @@ export class Question extends React.Component {
             }
         })
         .then(function (response) {
-            console.log("Прилетело с сервера:")
-            console.log(response.data.status);
+    
         })
-        console.log(this.props.photo!=="" &&this.props.photo!== undefined)
+        
         if (this.props.photo!=="" &&this.props.photo!== undefined){
             fetch("/update_question_image/"+this.state.id, {
                 method: 'POST',

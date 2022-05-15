@@ -39,7 +39,7 @@ def download_file(name):
         )
 
 
-# ============= Авторизация и регестрация =====================================
+# ============= Авторизация и регистрация =====================================
 @app.route("/login", methods=["POST"])
 def login():
     username = request.json.get("username", None)

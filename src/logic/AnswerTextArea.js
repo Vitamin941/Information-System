@@ -36,11 +36,11 @@ export class AnswerTextArea extends React.Component {
         e.preventDefault()
         let files = e.dataTransfer.files[0]
         var form_data = new FormData();
-        console.log(form_data)
+        // console.log(form_data)
         form_data.append('image', files);
         this.props.setPhoto(form_data)
         this.onDragLeaveHandler(e)
-        console.log(files)
+        // console.log(files)
     }
 
     updateAnswer(e){

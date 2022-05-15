@@ -77,7 +77,6 @@ export class UserWindow extends React.Component {
             Authorization: 'Bearer ' + this.props.token
         }
       }).then(resp => {
-          console.log(resp)
           if (resp.data.exis){
             this.setState({
               msgUserId: resp.data.user_id,
