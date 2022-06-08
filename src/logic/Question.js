@@ -73,19 +73,19 @@ export class Question extends React.Component {
     
         })
         
-        if (this.props.photo!=="" &&this.props.photo!== undefined){
-            fetch("/update_question_image/"+this.state.id, {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer ' + this.props.token,
-                },
-                body: this.props.photo
-            }).then(response => response.json()
-            ).then(json => {
-                console.log(json)
-            });
-            this.props.photo = undefined
-        }
+        // if (this.props.photo!=="" &&this.props.photo!== undefined){
+        //     fetch("/update_question_image/"+this.state.id, {
+        //         method: 'POST',
+        //         headers: {
+        //             Authorization: 'Bearer ' + this.props.token,
+        //         },
+        //         body: this.props.photo
+        //     }).then(response => response.json()
+        //     ).then(json => {
+        //         console.log(json)
+        //     });
+        //     this.props.photo = undefined
+        // }
         
     }
 

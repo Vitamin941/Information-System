@@ -5,7 +5,7 @@ import '../css/AnswerTextArea.css'
 export class AnswerTextArea extends React.Component {
     constructor(props) {
         super(props)
-
+        
         this.state = {
             drag: false
         }
@@ -33,12 +33,28 @@ export class AnswerTextArea extends React.Component {
     }
    
     onDropHandler(e) {
+        console.log(this.props.activeQuastion) //Получили id картинки
         e.preventDefault()
         let files = e.dataTransfer.files[0]
         var form_data = new FormData();
         // console.log(form_data)
         form_data.append('image', files);
-        this.props.setPhoto(form_data)
+        // this.props.setPhoto(form_data)
+        //========================НОВЫЙ КОД================================
+        fetch("/update_question_image/"+this.props.activeQuastion, {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer ' + this.props.token,
+            },
+            body: form_data
+        }).then(response => response.json()
+        ).then(json => {
+            this.props.setPhoto(json.name_photo)
+        });
+        //=================================================================
+        // this.props.photo = undefined
+        
+
         this.onDragLeaveHandler(e)
         // console.log(files)
     }

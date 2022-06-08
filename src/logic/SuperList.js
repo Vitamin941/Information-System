@@ -33,6 +33,7 @@ export class SuperList extends React.Component {
         this.state.active = id
         this.setState({active: id})
         this.seeAnswer(id)
+        this.props.setActiveQuestion(id) //Активный вопрос!!!
     }
 
     seeAnswer(id){
@@ -56,6 +57,7 @@ export class SuperList extends React.Component {
             text: state.text,
             generatedQuestion: true
         }))
+        this.props.setPhoto(undefined)
     }
 
     onSubmit(e) {

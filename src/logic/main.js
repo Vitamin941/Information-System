@@ -5,7 +5,7 @@ import { useState } from 'react'
 function Main(props) {
     const [answer, setAnswer] = useState("");
     const [photo, setPhoto] = useState();
-    
+    const [activeQuastion, setActiveQuestion]= useState();
     return (
         <div className="main">
             <div className='main-container'>
@@ -13,10 +13,15 @@ function Main(props) {
                     id_subject={props.id_subject} setSubject={props.setSubject}
                     questions={props.questions} setQuestions={props.setQuestions}
                     answer={answer} setAnswer={setAnswer}
-                    photo={photo} setPhoto={setPhoto}/>
+                    photo={photo} setPhoto={setPhoto}
+                    activeQuastion={activeQuastion} setActiveQuestion={setActiveQuestion}
+                    />
                     <AnswerTextArea
+                    token={props.token}
                     answer={answer} setAnswer={setAnswer}
-                    photo={photo} setPhoto={setPhoto}/>
+                    photo={photo} setPhoto={setPhoto}
+                    activeQuastion={activeQuastion} setActiveQuestion={setActiveQuestion}
+                    />
             </div>
         </div>
     );

@@ -229,7 +229,8 @@ def update_question_image(id):
         uploaded_file.save(os.path.join(app.config['UPLOAD_PATH'], path))
     
     response = jsonify({
-        "status": 'ok'
+        "status": 'ok',
+        "name_photo": path
     })
     return response
 
