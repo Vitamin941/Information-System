@@ -104,21 +104,6 @@ export class SuperList extends React.Component {
                 </div>
                 {this.props.id_subject !== -1
                 ?<>
-                    
-                    {this.props.questions.map(question => 
-                        <Question key={question.id} text={question.text} level={question.level} id={question.id} 
-                        token={this.props.token} deleteItem={() => this.deleteItem(question)}
-                        answer={this.props.answer} photo={this.props.photo} active={this.state.active === question.id ? true : false} 
-                        updateActive={() => this.activeAnswer(question.id)}/>
-                    )}
-                    {this.state.generatedQuestion
-                        ?
-                        <div className="input-container">
-                            <input className="inputer" placeholder="Введите текст"/>
-                        </div>
-                        :
-                        <></>
-                    }
                     <div className="buttons-container">
                         <button className="question-adder" onClick={this.onCreate} />
                         {this.state.generatedQuestion?
@@ -127,6 +112,22 @@ export class SuperList extends React.Component {
                             <></>
                         }
                     </div>
+                    {this.state.generatedQuestion
+                        ?
+                        <div className="input-container">
+                            <input className="inputer" placeholder="Введите текст"/>
+                        </div>
+                        :
+                        <></>
+                    }
+                    
+                    {this.props.questions.reverse().map(question => 
+                        <Question key={question.id} text={question.text} level={question.level} id={question.id} 
+                        token={this.props.token} deleteItem={() => this.deleteItem(question)}
+                        answer={this.props.answer} photo={this.props.photo} active={this.state.active === question.id ? true : false} 
+                        updateActive={() => this.activeAnswer(question.id)}/>
+                    )}
+                    
                 </>:<>
                     <p>Выберите категорию</p>
                 </>
