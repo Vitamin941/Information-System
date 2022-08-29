@@ -13,6 +13,9 @@ from flask_jwt_extended import current_user
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import unset_jwt_cookies
+from flask_jwt_extended import create_refresh_token
+from flask_jwt_extended import get_jwt_identity
+
 
 # ================ Настройка JWT ==============================================
 jwt = JWTManager(app)
@@ -51,9 +54,23 @@ def login():
         return jsonify("Wrong username or password"), 401
     
     # Токен
-    access_token = create_access_token(identity=user)
+    access_token = create_access_token(identity=user, fresh=timedelta(minutes=15))
+    refresh_token = create_refresh_token(identity=user)
+    response = {
+        "access_token":access_token,
+        "refresh_token": refresh_token 
+    }
+    return response
 
-    response = {"access_token":access_token}
+
+@app.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh():
+    identity = get_jwt_identity()
+    access_token = create_access_token(identity=identity, fresh=False)
+    response = {
+        "access_token":access_token
+    }
     return response
 
 
@@ -130,6 +147,7 @@ def add_subject():
 @app.route("/delete_subject/<id>", methods=["POST"])
 @jwt_required()
 def delete_subject(id):
+    id = int(id)
     user = current_user
     db.engine.execute(f"""
         delete from repetition where id in (select r.id from repetition as r 
@@ -154,6 +172,7 @@ def delete_subject(id):
 @app.route("/get_question_subject/<id>", methods=["GET"])
 @jwt_required()
 def question_subject(id):
+    id = int(id)
     user_id = current_user.id
     questions_ = db.engine.execute(f"""
         select q.text_question, r.level, q.id from repetition as r 
